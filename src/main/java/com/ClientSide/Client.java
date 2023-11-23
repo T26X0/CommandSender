@@ -1,7 +1,7 @@
 package com.ClientSide;
 
 
-import com.Instruments.MessageCunstructor;
+import com.Instruments.MessageConstructor;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,10 +14,10 @@ import java.util.regex.Pattern;
 
 public class Client {
 
-    private static String ip;
-    private static String name;
+    private static String userIp;
+    private static String userName;
 
-    private static MessageCunstructor messageConstructor;
+    private static MessageConstructor messageConstructor;
     static Socket socket;
     static PrintWriter output;
     static Scanner input;
@@ -41,9 +41,12 @@ public class Client {
 
         scanner = new Scanner(System.in);
         setIp();
-        setName();
 
-        messageConstructor = new MessageCunstructor(ip, name);
+        System.out.println("Please enter your name...");
+        String name = scanner.nextLine();
+        setName(name);
+
+        messageConstructor = new MessageConstructor(userIp, userName);
     }
 
     private static void initServer() throws IOException {
@@ -60,31 +63,28 @@ public class Client {
             Matcher matcher = pattern.matcher(localHost.toString());
 
             while (matcher.find()) {
-                ip = matcher.group(1);
+                userIp = matcher.group(1);
             }
         } catch (UnknownHostException e) {
             // TODO: need to add logging
-            ip = "Ip not found";
+            userIp = "Ip not found";
         }
-
     }
 
-    private static void setName() {
+    private static void setName(String name) {
 
-        // User needs to enter his name in terminal
-
-        // Temporary solution:
-        System.out.println("Please enter your name...");
-        name = scanner.nextLine();
-        System.out.println("Welcome :D");
+        // TODO: name check
+        userName = name;
+        // else:
+        // "Enter correct name"
     }
 
-    public static String getIp() {
-        return ip;
+    public static String getUserIp() {
+        return userIp;
     }
 
-    public static String getName() {
-        return name;
+    public static String getUserName() {
+        return userName;
     }
 }
 

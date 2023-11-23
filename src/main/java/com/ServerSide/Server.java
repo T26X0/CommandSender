@@ -1,13 +1,14 @@
 package com.ServerSide;
 
 
-import com.Instruments.MessageCunstructor;
+import com.Instruments.MessageConstructor;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Server {
@@ -29,9 +30,10 @@ public class Server {
 
 class ClientHandler implements Runnable {
 
-    HashMap<String, String> allUsers = new HashMap<>();
+    Map<String, String> allUsers = new HashMap<>();
 
     Socket socket;
+
     ClientHandler(Socket socket) {
         System.out.println("Success connection");
         this.socket = socket;
@@ -47,10 +49,10 @@ class ClientHandler implements Runnable {
 
             while (input.hasNext()) {
                 String inputData = input.nextLine();
-                MessageCunstructor message = new MessageCunstructor(inputData);
+                MessageConstructor message = new MessageConstructor(inputData);
 
-                String ip = message.getIp();
-                String name = message.getName();
+                String ip = message.getClientIp();
+                String name = message.getClientName();
                 String recipient = message.getRecipient();
                 String content = message.getContent();
 

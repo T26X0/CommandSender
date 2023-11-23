@@ -2,11 +2,11 @@ package com.Instruments;
 
 import org.json.JSONObject;
 
-public class MessageCunstructor {
+public class MessageConstructor {
 
     private String message;
-    private String ip;
-    private String name;
+    private String clientIp;
+    private String clientName;
     private String recipient;
     private String content;
 
@@ -15,14 +15,13 @@ public class MessageCunstructor {
      *
      *  Creates a constructor instance for subsequent
      *  preparation of messages in json format
-     * @param ip String
-     * @param name String
+     * @param clientIp String
+     * @param clientName String
      */
-    public MessageCunstructor(String ip, String name) {
-        this.ip = ip;
-        this.name = name;
+    public MessageConstructor(String clientIp, String clientName) {
+        this.clientIp = clientIp;
+        this.clientName = clientName;
     }
-
 
     /**
      *  <pre> This constructor is intended for use in the Server </pre>
@@ -31,7 +30,7 @@ public class MessageCunstructor {
      *  and provides convenient access to message elements
      * @param message String
      */
-    public MessageCunstructor(String message) {
+    public MessageConstructor(String message) {
 
         this.message = message;
         initInputData();
@@ -41,8 +40,8 @@ public class MessageCunstructor {
     private void initInputData() {
 
         JSONObject jsonMessage = new JSONObject(message);
-        ip = jsonMessage.getString("ip");
-        name = jsonMessage.getString("name");
+        clientIp = jsonMessage.getString("ip");
+        clientName = jsonMessage.getString("name");
         recipient = jsonMessage.getString("recipient");
         content = jsonMessage.getString("content");
     }
@@ -50,18 +49,18 @@ public class MessageCunstructor {
     public String prepareMessage(String recipient, String content) {
 
         return "{" +
-                "\"ip\":\"" + ip + "\", " +
-                "\"name\":\"" + name + "\", " +
+                "\"ip\":\"" + clientIp + "\", " +
+                "\"name\":\"" + clientName + "\", " +
                 "\"recipient\":\"" + recipient + "\", " +
                  "\"content\":\"" + content + "\"}";
     }
 
-    public String getIp() {
-        return ip;
+    public String getClientIp() {
+        return clientIp;
     }
 
-    public String getName() {
-        return name;
+    public String getClientName() {
+        return clientName;
     }
 
     public String getRecipient() {
