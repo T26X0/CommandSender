@@ -25,6 +25,9 @@ public class Client {
 
     public static void main(String[] args) throws IOException {
 
+        scanner = new Scanner(System.in);
+
+        setIp();
         initClient();
         initServer();
 
@@ -39,8 +42,6 @@ public class Client {
 
     private static void initClient() {
 
-        scanner = new Scanner(System.in);
-        setIp();
 
         System.out.println("Please enter your name...");
         String name = scanner.nextLine();
@@ -72,11 +73,35 @@ public class Client {
     }
 
     private static void setName(String name) {
-
-        // TODO: name check
+        System.out.println();
+        if (name.isEmpty() || name.length() > 14 || getWordCount(name) > 1) {
+            System.out.println("Your indicate not valid name:");
+            System.out.println("    [*] Name can't be empty");
+            System.out.println("    [*] Name must contain no more than 14 characters");
+            System.out.println("    [*] Name must contain no more than 1 word");
+            System.out.println("    [*] you can use \"_\" or \"-\"");
+            System.out.println();
+            takeSurvey();
+        }
         userName = name;
-        // else:
-        // "Enter correct name"
+    }
+
+    /**
+     * Here user taking a survey while until he answers correctly
+     */
+    private static void takeSurvey() {
+        System.out.println("Enter again? (y/n)");
+
+        String answer = scanner.nextLine();
+        if (answer.equals("y")) {
+            initClient();
+        } else if (answer.equals("n")) {
+            // TODO exit from program
+        } else {
+            System.out.println("incorrect ones were introduced data");
+            takeSurvey();
+        }
+
     }
 
     public static String getUserIp() {
@@ -86,5 +111,8 @@ public class Client {
     public static String getUserName() {
         return userName;
     }
-}
 
+    private static int getWordCount(String name) {
+        return name.trim().split("[\\s]+").length;
+    }
+}

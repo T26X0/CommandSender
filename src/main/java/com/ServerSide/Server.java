@@ -30,8 +30,6 @@ public class Server {
 
 class ClientHandler implements Runnable {
 
-    Map<String, String> allUsers = new HashMap<>();
-
     Socket socket;
 
     ClientHandler(Socket socket) {
