@@ -3,12 +3,23 @@ package com.Instruments;
 import org.json.JSONObject;
 
 public class MessageConstructor {
-
+    /**
+     * <h2>for Server:</h2>
+     * <b>The class provides getters for:</b>
+     * <li>userName</li>
+     * <li>userIp</li>
+     * <li>messageRecipient</li>
+     * <li>textMessage</li>
+     *
+     * <h2>for Client:</h2>
+     * <h4>method for preparing a message using a template for sending</h4>
+     * @see     com.Instruments.MessageConstructor#prepareMessage(String, String)
+     */
     private String message;
     private String clientIp;
     private String clientName;
-    private String recipient;
-    private String content;
+    private String messageRecipient;
+    private String textMessage;
 
     /**
      *  <pre> This constructor is intended for use in the Client </pre>
@@ -42,8 +53,8 @@ public class MessageConstructor {
         JSONObject jsonMessage = new JSONObject(message);
         clientIp = jsonMessage.getString("ip");
         clientName = jsonMessage.getString("name");
-        recipient = jsonMessage.getString("recipient");
-        content = jsonMessage.getString("content");
+        messageRecipient = jsonMessage.getString("recipient");
+        textMessage = jsonMessage.getString("content");
     }
 
     public String prepareMessage(String recipient, String content) {
@@ -63,11 +74,11 @@ public class MessageConstructor {
         return clientName;
     }
 
-    public String getRecipient() {
-        return recipient;
+    public String getRecipientIp() {
+        return messageRecipient;
     }
 
-    public String getContent() {
-        return content;
+    public String getTextMessage() {
+        return textMessage;
     }
 }
