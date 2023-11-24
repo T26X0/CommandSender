@@ -19,10 +19,9 @@ public class IpLocal {
                 userIp = matcher.group(1);
             }
         } catch (UnknownHostException e) {
-            // TODO: need to add logging
+            // TODO need to add logging
             userIp = "Ip not found";
         }
         return userIp;
     }
 }
-

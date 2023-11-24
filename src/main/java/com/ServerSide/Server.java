@@ -51,7 +51,7 @@ public class Server implements Connectable {
         allUser.put(
                 messageConstructor.getClientIp(),
                 socket);
-//        TODO logging
+        // TODO logging
     }
 
     public void sendMessage(MessageConstructor messageConstructor) {

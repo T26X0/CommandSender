@@ -15,12 +15,10 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Client extends Validator implements Connectable {
-
-    private String userName;
+public class Client implements Connectable {
     private String userIp;
+    private String userName;
     private MessageConstructor messageConstructor;
-    private Socket socket;
     private PrintWriter output;
     private final Scanner scanner = new Scanner(System.in);
     private String serverIp;
@@ -30,21 +28,22 @@ public class Client extends Validator implements Connectable {
 
         userIp = IpLocal.get();
         registerClient();
-//        settingIpPortServer();
+        settingIpPortServer();
+
     }
 
     @Override
     public void startConnect() {
 
         try {
-//            connectingToServer(serverIp, serverPort);
-            connectingToServer("127.0.0.1", 8081);
+            connectingToServer(serverIp, serverPort);
+            System.out.println("Success connection");
             keyboardTapping();
         } catch (IOException e) {
             // TODO logging
             System.out.println("This server is currently unavailable");
-            System.out.println("    [] Try connecting later");
-            System.out.println("    [] or try connected to another server");
+            System.out.println("   Try connecting later");
+            System.out.println("   or try connected to another server");
 
             settingIpPortServer();
         }
@@ -60,7 +59,8 @@ public class Client extends Validator implements Connectable {
             serverIp = ip;
         } else {
             // TODO logging
-            System.out.println("You entered is not correctly ip");
+            System.out.println("You entered an incorrect IP");
+            System.out.println("   Try again");
             settingIpPortServer();
         }
 
@@ -70,7 +70,8 @@ public class Client extends Validator implements Connectable {
             serverPort = port;
         } else {
             // TODO logging
-            System.out.println("You entered is not correctly port");
+            System.out.println("You entered an incorrect IP");
+            System.out.println("   Try again");
             settingIpPortServer();
         }
     }
@@ -101,7 +102,7 @@ public class Client extends Validator implements Connectable {
      * the user socket to the database active users
      */
     private void connectingToServer(String serverIp, int serverPort) throws IOException {
-        socket = new Socket(serverIp, serverPort);
+        Socket socket = new Socket(serverIp, serverPort);
         output = new PrintWriter(socket.getOutputStream());
 
         String message = messageConstructor.prepareMessage("", "");
@@ -110,7 +111,6 @@ public class Client extends Validator implements Connectable {
 
         System.out.println("Success connection");
     }
-
 
     private boolean setName(String name) {
         System.out.println();
@@ -134,11 +134,11 @@ public class Client extends Validator implements Connectable {
 
     private void keyboardTapping() {
         while (true) {
-            System.out.println("Enter message");
+            System.out.println("Enter message or command");
             String line = scanner.nextLine();
             if (!line.isEmpty()) {
 
-                String message  = messageConstructor.prepareMessage("", line);
+                String message = messageConstructor.prepareMessage("", line);
                 output.println(message);
                 output.flush();
             }
