@@ -1,7 +1,10 @@
 package com.ClientSide;
 
 
+import com.Instruments.Connectable;
+import com.Instruments.IpLocal;
 import com.Instruments.MessageConstructor;
+import com.Instruments.Validator;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,67 +15,104 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Client {
+public class Client extends Validator implements Connectable {
 
-    private static String userIp;
-    private static String userName;
+    private String userName;
+    private String userIp;
+    private MessageConstructor messageConstructor;
+    private Socket socket;
+    private PrintWriter output;
+    private final Scanner scanner = new Scanner(System.in);
+    private String serverIp;
+    private int serverPort;
 
-    private static MessageConstructor messageConstructor;
-    static Socket socket;
-    static PrintWriter output;
-    static Scanner input;
-    static Scanner scanner;
+    public Client() {
 
-    public static void main(String[] args) throws IOException {
-
-        scanner = new Scanner(System.in);
-
-        setIp();
-        initClient();
-        initServer();
-
-        System.out.println("Enter message");
-        String content = scanner.nextLine();
-
-        String message = messageConstructor.prepareMessage("your mom :D", content);
-
-        output.println(message);
-        output.flush();
+        userIp = IpLocal.get();
+        registerClient();
+//        settingIpPortServer();
     }
 
-    private static void initClient() {
+    @Override
+    public void startConnect() {
 
-
-        System.out.println("Please enter your name...");
-        String name = scanner.nextLine();
-        setName(name);
-
-        messageConstructor = new MessageConstructor(userIp, userName);
-    }
-
-    private static void initServer() throws IOException {
-        socket = new Socket("25.37.138.125", 8081);
-        output = new PrintWriter(socket.getOutputStream());
-        input = new Scanner(socket.getInputStream());
-    }
-
-    private static void setIp() {
         try {
-            InetAddress localHost = InetAddress.getLocalHost();
+//            connectingToServer(serverIp, serverPort);
+            connectingToServer("127.0.0.1", 8081);
+            keyboardTapping();
+        } catch (IOException e) {
+            // TODO logging
+            System.out.println("This server is currently unavailable");
+            System.out.println("    [] Try connecting later");
+            System.out.println("    [] or try connected to another server");
 
-            Pattern pattern = Pattern.compile("/(.*)");
-            Matcher matcher = pattern.matcher(localHost.toString());
-
-            while (matcher.find()) {
-                userIp = matcher.group(1);
-            }
-        } catch (UnknownHostException e) {
-            // TODO: need to add logging
-            userIp = "Ip not found";
+            settingIpPortServer();
         }
     }
 
-    private static void setName(String name) {
+    /**
+     * Getting and setting ip and port to connect to the server
+     */
+    public void settingIpPortServer() {
+        System.out.println("Enter server ip");
+        String ip = scanner.nextLine();
+        if (Validator.isValid(ip)) {
+            serverIp = ip;
+        } else {
+            // TODO logging
+            System.out.println("You entered is not correctly ip");
+            settingIpPortServer();
+        }
+
+        System.out.println("Enter server port");
+        int port = Integer.parseInt(scanner.nextLine());
+        if (Validator.isValid(port)) {
+            serverPort = port;
+        } else {
+            // TODO logging
+            System.out.println("You entered is not correctly port");
+            settingIpPortServer();
+        }
+    }
+
+    public String getUserIp() {
+        return userIp;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    private void registerClient() {
+
+        System.out.println("Please enter your name...");
+        String name = scanner.nextLine();
+
+        if (!setName(name)) {
+            registerClient();
+        }
+        messageConstructor = new MessageConstructor(getUserIp(), getUserName());
+    }
+
+    /**
+     * <h3>Initializes socket for connection to the Server</h3>
+     * <h4>As well as channels for receiving and sending information to the server</h4>
+     * Client sends on Server userIp so that the server to add
+     * the user socket to the database active users
+     */
+    private void connectingToServer(String serverIp, int serverPort) throws IOException {
+        socket = new Socket(serverIp, serverPort);
+        output = new PrintWriter(socket.getOutputStream());
+
+        String message = messageConstructor.prepareMessage("", "");
+        output.println(message);
+        output.flush();
+
+        System.out.println("Success connection");
+    }
+
+
+    private boolean setName(String name) {
         System.out.println();
         if (name.isEmpty() || name.length() > 14 || getWordCount(name) > 1) {
             System.out.println("Your indicate not valid name:");
@@ -81,38 +121,35 @@ public class Client {
             System.out.println("    [*] Name must contain no more than 1 word");
             System.out.println("    [*] you can use \"_\" or \"-\"");
             System.out.println();
-            takeSurvey();
+            return false;
         }
         userName = name;
-    }
-
-    /**
-     * Here user taking a survey while until he answers correctly
-     */
-    private static void takeSurvey() {
-        System.out.println("Enter again? (y/n)");
-
-        String answer = scanner.nextLine();
-        if (answer.equals("y")) {
-            initClient();
-        } else if (answer.equals("n")) {
-            // TODO exit from program
-        } else {
-            System.out.println("incorrect ones were introduced data");
-            takeSurvey();
-        }
+        return true;
 
     }
 
-    public static String getUserIp() {
-        return userIp;
-    }
-
-    public static String getUserName() {
-        return userName;
-    }
-
-    private static int getWordCount(String name) {
+    private int getWordCount(String name) {
         return name.trim().split("[\\s]+").length;
+    }
+
+    private void keyboardTapping() {
+        while (true) {
+            System.out.println("Enter message");
+            String line = scanner.nextLine();
+            if (!line.isEmpty()) {
+
+                String message  = messageConstructor.prepareMessage("", line);
+                output.println(message);
+                output.flush();
+            }
+        }
+    }
+}
+
+
+class Begin {
+    public static void main(String[] args) {
+        Client client = new Client();
+        client.startConnect();
     }
 }
