@@ -3,22 +3,18 @@ package com.ClientSide;
 
 import com.Instruments.Connectable;
 import com.Instruments.IpLocal;
-import com.Instruments.MessageConstructor;
+import com.Instruments.UserData;
 import com.Instruments.Validator;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Client implements Connectable {
     private String userIp;
     private String userName;
-    private MessageConstructor messageConstructor;
+    private UserData messageConstructor;
     private PrintWriter output;
     private final Scanner scanner = new Scanner(System.in);
     private String serverIp;
@@ -92,7 +88,7 @@ public class Client implements Connectable {
         if (!setName(name)) {
             registerClient();
         }
-        messageConstructor = new MessageConstructor(getUserIp(), getUserName());
+        messageConstructor = new UserData(getUserIp(), getUserName());
     }
 
     /**

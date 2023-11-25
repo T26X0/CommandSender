@@ -1,8 +1,7 @@
 package com.ServerSide;
 
-
 import com.Instruments.Connectable;
-import com.Instruments.MessageConstructor;
+import com.Instruments.UserData;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -15,7 +14,7 @@ import java.util.Scanner;
 public class Server implements Connectable {
 
     ServerSocket serverSocket;
-    Map<String, Socket> allUser = new HashMap<>();
+    public static Map<String, Socket> allUser = new HashMap<>();
 
     public Server() {
         raiseDataBase();
@@ -45,14 +44,7 @@ public class Server implements Connectable {
         // TODO I'll add the database when I research it :D
     }
 
-    public void registrationUser(MessageConstructor messageConstructor, Socket socket) {
-        allUser.put(
-                messageConstructor.getClientIp(),
-                socket);
-        // TODO logging
-    }
-
-    public void sendMessage(MessageConstructor messageConstructor) {
+    public void sendMessage(UserData messageConstructor) {
         String clientIp = messageConstructor.getClientIp();
         String clientName = messageConstructor.getClientName();
         String recipientIp = messageConstructor.getRecipientIp();
@@ -67,7 +59,7 @@ public class Server implements Connectable {
         System.out.println("  text: " + textMessage);
     }
 
-    public void commandExecution(String command) {
+    public void commandExecution(UserData userData) {
 
     }
 }
@@ -77,10 +69,54 @@ class ClientHandler extends Server implements Runnable {
 
     Socket socket;
 
+    /**
+     * <h2>A new monitoring of one user is created over the socket</h2>
+     * @param socket Socket
+     */
     ClientHandler(Socket socket) {
+        // TODO logging
         System.out.println("Success connection");
         this.socket = socket;
     }
+
+    /**
+     * Adds a user to the shared database
+     * @param userData UserData
+     * @param socket Socket
+     */
+    public static void registrationUser(UserData userData, Socket socket) {
+        allUser.put(
+                userData.getClientIp(),
+                socket);
+        // TODO logging
+    }
+
+    /**
+     * <strong>The method checks the user's registration</strong>
+     * <h3>The user sends an empty message if he is not registered</h3>
+     * @param userData UserData
+     * @return boolean
+     */
+    private static boolean userIsRegistered(UserData userData) {
+        return !(userData.getTextMessage().isEmpty());
+    }
+
+    /**
+     *<h3>The method checks the message for the commands</h3>
+     *<pre>
+     *     Example:
+     *     "!add" - command to the adding friend
+     *     "Hello" - message
+     * </pre>
+     *
+     *
+     * @param userData UserData
+     * @return boolean
+     */
+    private static boolean isCommand(UserData userData) {
+        return userData.getTextMessage().startsWith("!");
+    }
+
 
     /**
      * <h3>The method processes data that comes from the server,</h3>
@@ -94,42 +130,21 @@ class ClientHandler extends Server implements Runnable {
         String lastIp = "None";
         String lastName = "None";
 
-        try {
-            Scanner input = new Scanner(socket.getInputStream());
-
+        try (Scanner input = new Scanner(socket.getInputStream())) {
             while (true) {
-                String inputData = input.nextLine();
+                String fromUser = input.nextLine();
+                UserData userData = new UserData(fromUser);
 
-                // if the user sent a command
-                if (inputData.startsWith("!")) {
-                    commandExecution(inputData);
+                if (!userIsRegistered(userData)) {
+                    registrationUser(userData, socket);
                 } else {
-                    MessageConstructor message = new MessageConstructor(inputData);
+                    lastIp = userData.getClientIp();
+                    lastName = userData.getClientName();
 
-                    /*
-                     * lastIp and lastName store data about the user who was last
-                     * accessed the server once
-                     *
-                     * Then lastIp and lastName are used in logging when a user
-                     * unexpectedly disconnects from the server
-                     *
-                     * ("unexpectedly" == without using the command "!q" or "!exit")
-                     */
-                    lastIp = message.getClientIp();
-                    lastName = message.getClientName();
-
-                    /* the user sends an empty message upon
-                     * first connection for identification
-                     */
-                    if (message.getTextMessage().isEmpty()) {
-                        registrationUser(message, socket);
-                        System.out.println("User: " + message.getClientName() + " is registered");
-                    }
-                    /*
-                     * processing a regular message
-                     */
-                    else {
-                        sendMessage(message);
+                    if (isCommand(userData)) {
+                        commandExecution(userData);
+                    } else {
+                        sendMessage(userData);
                     }
                 }
             }
@@ -143,9 +158,12 @@ class ClientHandler extends Server implements Runnable {
     }
 }
 
-
 class Begin {
 
+    /**
+     * <h2>Start of the program</h2>
+     * <h3>Entry point for the Client</h3>
+     */
     public static void main(String[] args) {
         Server server = new Server();
         server.startConnect();
