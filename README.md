@@ -1,13 +1,16 @@
+<h6>
+    * Main development is carried out in the branch "terminal" 
+</h6>
+<h6>
+    * All information provided below is temporary.
+</h6>
 <div>
     <h1 align="center">
       Line sender
     </h1>
-    <h6 align="center">
+    <h5 align="center">
         Messenger on the command line    
-    </h6>
-    <h6 align="center">
-        Ьain development is carried out in the branch "terminal" 
-    </h6>
+    </h5>
 </div>
 
 ## About program:
