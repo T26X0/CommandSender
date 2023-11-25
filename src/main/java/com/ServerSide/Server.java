@@ -84,24 +84,13 @@ class ClientHandler extends Server implements Runnable {
         this.socket = socket;
     }
 
-    private String getCommand(String inputData) {
-        String command = "";
-
-        Pattern pattern = Pattern.compile("!(.*)");
-        Matcher matcher = pattern.matcher(inputData);
-
-        while (matcher.find()) {
-            command = matcher.group(1);
-        }
-
-        if (command.isEmpty()) {
-            return "Command is not defined";
-        } else {
-            return command;
-        }
-
-    }
-
+    /**
+     * <h3>The method processes data that comes from the server,</h3>
+     *
+     * <pre>this can be:
+     *      a command (if the message begins with "!")
+     *      a message to the another user (without "!")</pre>
+     */
     @Override
     public void run() {
         String lastIp = "None";
@@ -113,17 +102,35 @@ class ClientHandler extends Server implements Runnable {
             while (true) {
                 String inputData = input.nextLine();
 
+                // if the user sent a command
                 if (inputData.startsWith("!")) {
-                    commandExecution(getCommand(inputData));
+                    commandExecution(inputData);
                 } else {
                     MessageConstructor message = new MessageConstructor(inputData);
+
+                    /*
+                     * lastIp and lastName store data about the user who was last
+                     * accessed the server once
+                     *
+                     * Then lastIp and lastName are used in logging when a user
+                     * unexpectedly disconnects from the server
+                     *
+                     * ("unexpectedly" == without using the command "!q" or "!exit")
+                     */
                     lastIp = message.getClientIp();
                     lastName = message.getClientName();
 
+                    /* the user sends an empty message upon
+                     * first connection for identification
+                     */
                     if (message.getTextMessage().isEmpty()) {
                         registrationUser(message, socket);
                         System.out.println("User: " + message.getClientName() + " is registered");
-                    } else {
+                    }
+                    /*
+                     * processing a regular message
+                     */
+                    else {
                         sendMessage(message);
                     }
                 }
