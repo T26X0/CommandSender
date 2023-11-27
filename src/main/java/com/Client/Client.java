@@ -1,7 +1,7 @@
 package com.Client;
 
 
-import com.User_Interface.Display_Config;
+import com.User_Interface.Text;
 import com.User_Interface.User_Display;
 import com.Utils.Connectable;
 import com.Utils.UserData;
@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client extends User_Config implements Connectable {
+public class Client extends User_Const implements Connectable {
     private String userIp;
     private String userName;
     private UserData messageConstructor;
@@ -28,9 +28,16 @@ public class Client extends User_Config implements Connectable {
 
         userIp = IpLocal.get();
         registerClient();
-        settingIpPortServer();
 
+        display.reset();
+        display.add("Enter server ip", Text.IS_TITLE);
+        display.show();
+        init_Server_Ip();
 
+        display.reset();
+        display.add("Enter server port", Text.IS_TITLE);
+        display.show();
+        init_Server_Port();
     }
 
     @Override
@@ -46,55 +53,78 @@ public class Client extends User_Config implements Connectable {
             System.out.println("   Try connecting later");
             System.out.println("   or try connected to another server");
 
-            settingIpPortServer();
+            init_Server_Ip();
         }
     }
 
     /**
      * Getting and setting ip and port to connect to the server
      */
-    public void settingIpPortServer() {
-        System.out.println("Enter server ip");
+    public void init_Server_Ip() {
+
         String ip = scanner.nextLine();
         if (Validator.isValid(ip)) {
             serverIp = ip;
         } else {
             // TODO logging
-            System.out.println("You entered an incorrect IP");
-            System.out.println("   Try again");
-            settingIpPortServer();
-        }
 
-        System.out.println("Enter server port");
-        int port = Integer.parseInt(scanner.nextLine());
-        if (Validator.isValid(port)) {
-            serverPort = port;
-        } else {
-            // TODO logging
-            System.out.println("You entered an incorrect IP");
-            System.out.println("   Try again");
-            settingIpPortServer();
+            display.add("You entered an incorrect IP", Text.NOT_TITLE);
+            display.add("   Try again", Text.NOT_TITLE);
+            display.show();
+            init_Server_Ip();
         }
     }
 
-    public String getUserIp() {
+    public void init_Server_Port() {
+
+        display.replace("Enter server ip ☑");
+        display.add("Enter server port", Text.NOT_TITLE);
+        display.show();
+
+        try {
+            int port = Integer.parseInt(scanner.nextLine());
+
+            if (Validator.isValid(port)) {
+                serverPort = port;
+            } else {
+                // TODO logging
+                display.add("You entered an incorrect PORT", Text.NOT_TITLE);
+                display.add("   Try again", Text.NOT_TITLE);
+                display.show();
+                init_Server_Ip();
+            }
+        } catch (NumberFormatException e) {
+            // TODO logging
+            display.add("You entered an incorrect PORT", Text.NOT_TITLE);
+            display.add("   Try again", Text.NOT_TITLE);
+            display.show();
+            init_Server_Ip();
+
+        }
+    }
+
+    public String get_UserIp() {
         return userIp;
     }
 
-    public String getUserName() {
+    public String get_UserName() {
         return userName;
     }
 
     private void registerClient() {
 
-        display.add_Element("Please enter your name:");
-        display.show_display();
+        display.reset();
+        display.add("Please enter your name:", Text.IS_TITLE);
+        display.show();
         String name = scanner.nextLine();
 
-        if (!setName(name)) {
+        if (!set_Name(name)) {
             registerClient();
         }
-        messageConstructor = new UserData(getUserIp(), getUserName());
+        display.set_userName(name);
+        messageConstructor = new UserData(get_UserIp(), get_UserName());
+
+
     }
 
     /**
@@ -114,15 +144,15 @@ public class Client extends User_Config implements Connectable {
         System.out.println("Success connection");
     }
 
-    private boolean setName(String name) {
-        System.out.println();
-        if (name.isEmpty() || name.length() > MAX_NAME_LENGTH || getWordCount(name) > 1) {
-            System.out.println("Your indicate not valid name:");
-            System.out.println("    [*] Name can't be empty");
-            System.out.println("    [*] Name must contain no more than 14 characters");
-            System.out.println("    [*] Name must contain no more than 1 word");
-            System.out.println("    [*] you can use \"_\" or \"-\"");
-            System.out.println();
+    private boolean set_Name(String name) {
+        if (name.isEmpty() || name.length() > MAX_NAME_LENGTH || get_WordCount(name) > 1) {
+
+            display.add("Your indicate not valid name:", Text.NOT_TITLE);
+            display.add("* Name can't be empty", Text.NOT_TITLE);
+            display.add("* Name must contain no more than 14 characters", Text.NOT_TITLE);
+            display.add("* Name must contain no more than 1 word", Text.NOT_TITLE);
+            display.add("* you can use \"_\" or \"-\"", Text.NOT_TITLE);
+            display.show();
             return false;
         }
         userName = name;
@@ -130,7 +160,7 @@ public class Client extends User_Config implements Connectable {
 
     }
 
-    private int getWordCount(String name) {
+    private int get_WordCount(String name) {
         return name.trim().split("[\\s]+").length;
     }
 
