@@ -27,41 +27,6 @@ abstract class Config {
         fillEmptiness();
     }
 
-    protected Map<String, String> prepareToInsert(int x, int y, String str) {
-        String coordinatesForKey;
-        String letterForValue;
-        Map<String, String> resultMap = new HashMap<>();
-
-        char[] numbersOfChars = str.toCharArray();
-
-        for (int i = 0; i < numbersOfChars.length; i++) {
-            coordinatesForKey = getCoordinates(x + i, y);
-            letterForValue = String.valueOf(numbersOfChars[i]);
-            resultMap.put(coordinatesForKey, letterForValue);
-        }
-
-        return resultMap;
-    }
-
-    protected void addToMap(Map<String, String> map) {
-        List<String> keys = new ArrayList<String>(map.keySet());
-        for (String key : keys) {
-            String value = map.get(key);
-
-            if (working_display.get(key).equals(" ")) {
-                working_display.put(key, value);
-            }
-        }
-    }
-
-    protected static String getCoordinates(int x, int y) {
-        return x + ", " + y;
-    }
-
-    protected static String getCoordinates(String x, String y) {
-        return x + ", " + y;
-    }
-
     private void setHorizontal_line() {
         for (int queue = 0; queue < frameSize_x; queue++) {
             for (int cursor = 0; cursor < 2; cursor++) {
@@ -137,5 +102,40 @@ abstract class Config {
             }
         }
     }
-}
 
+    protected Map<String, String> prepareToInsert(int x, int y, String str) {
+        String coordinatesForKey;
+        String letterForValue;
+        Map<String, String> resultMap = new HashMap<>();
+
+        char[] numbersOfChars = str.toCharArray();
+
+        for (int i = 0; i < numbersOfChars.length; i++) {
+            coordinatesForKey = getCoordinates(x + i, y);
+            letterForValue = String.valueOf(numbersOfChars[i]);
+            resultMap.put(coordinatesForKey, letterForValue);
+        }
+
+        return resultMap;
+    }
+
+    protected void addToMap(Map<String, String> map) {
+        List<String> keys = new ArrayList<String>(map.keySet());
+        for (String key : keys) {
+            String value = map.get(key);
+
+            if (working_display.get(key).equals(" ")) {
+                working_display.put(key, value);
+            }
+        }
+    }
+
+    protected static String getCoordinates(int x, int y) {
+        return x + ", " + y;
+    }
+
+    protected static String getCoordinates(String x, String y) {
+        return x + ", " + y;
+    }
+
+}

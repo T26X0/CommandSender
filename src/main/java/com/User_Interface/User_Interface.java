@@ -30,5 +30,4 @@ public class User_Interface extends Config {
         Map<String, String> StringWithCoordinates = prepareToInsert(x, y, str);
         addToMap(StringWithCoordinates);
     }
-
 }
