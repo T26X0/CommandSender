@@ -68,8 +68,8 @@ public class Client extends User_Const implements Connectable {
         } else {
             // TODO logging
 
-            display.add("You entered an incorrect IP", Text.NOT_TITLE);
-            display.add("   Try again", Text.NOT_TITLE);
+            display.add("You entered an incorrect IP", Text.IS_ERROR);
+            display.add("Try again", Text.IS_ERROR);
             display.show();
             init_Server_Ip();
         }
@@ -78,7 +78,7 @@ public class Client extends User_Const implements Connectable {
     public void init_Server_Port() {
 
         display.replace("Enter server ip ☑");
-        display.add("Enter server port", Text.NOT_TITLE);
+        display.add("Enter server port", Text.CONTENT);
         display.show();
 
         try {
@@ -88,15 +88,15 @@ public class Client extends User_Const implements Connectable {
                 serverPort = port;
             } else {
                 // TODO logging
-                display.add("You entered an incorrect PORT", Text.NOT_TITLE);
-                display.add("   Try again", Text.NOT_TITLE);
+                display.add("You entered an incorrect PORT", Text.CONTENT);
+                display.add("   Try again", Text.CONTENT);
                 display.show();
                 init_Server_Ip();
             }
         } catch (NumberFormatException e) {
             // TODO logging
-            display.add("You entered an incorrect PORT", Text.NOT_TITLE);
-            display.add("   Try again", Text.NOT_TITLE);
+            display.add("You entered an incorrect PORT", Text.CONTENT);
+            display.add("   Try again", Text.CONTENT);
             display.show();
             init_Server_Ip();
 
@@ -147,11 +147,11 @@ public class Client extends User_Const implements Connectable {
     private boolean set_Name(String name) {
         if (name.isEmpty() || name.length() > MAX_NAME_LENGTH || get_WordCount(name) > 1) {
 
-            display.add("Your indicate not valid name:", Text.NOT_TITLE);
-            display.add("* Name can't be empty", Text.NOT_TITLE);
-            display.add("* Name must contain no more than 14 characters", Text.NOT_TITLE);
-            display.add("* Name must contain no more than 1 word", Text.NOT_TITLE);
-            display.add("* you can use \"_\" or \"-\"", Text.NOT_TITLE);
+            display.add("Your indicate not valid name:", Text.CONTENT);
+            display.add("* Name can't be empty", Text.CONTENT);
+            display.add("* Name must contain no more than 14 characters", Text.CONTENT);
+            display.add("* Name must contain no more than 1 word", Text.CONTENT);
+            display.add("* you can use \"_\" or \"-\"", Text.CONTENT);
             display.show();
             return false;
         }

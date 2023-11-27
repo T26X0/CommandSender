@@ -11,7 +11,6 @@ import java.util.Map;
  */
 public class User_Display extends Display_Config {
 
-    private static int countLines = 4;
 
     public User_Display() {
         super();
@@ -29,49 +28,39 @@ public class User_Display extends Display_Config {
     }
 
     public void add(String str, Text text) {
-        int x;
-        int y;
-        switch (text) {
-            case IS_TITLE:
-                x = getX_center_for(str);
-                y = headline_Y_Position;
-                add(x, y, str);
-                resetLineCounter();
-                break;
-            case NOT_TITLE:
-                x = getX_center_for(str);
-                y = (headline_Y_Position + 1) + countLines;
+        int x = getX_center_for(str);
+        int y = 0;
 
-                if (y >= maxPermissible_y) {
-                    resetLineCounter();
-                    y = (headline_Y_Position + 1) + countLines;
-                }
+        Map<String, String> stringWithCoordinates;
 
-                Map<String, String> StringWithCoordinates = prepareToInsertInMap(x, countLines, str);
-                addToDisplay(StringWithCoordinates);
-                countLines++;
-                break;
+        if (text != Text.IS_TITLE) {
+
+            if (text == Text.CONTENT) {
+                y = (headline_Y_Position + 1) + linePrint_notTitle;
+            }
+            if (text == Text.IS_ERROR) {
+                y = ((Math.round((float) SIZE_DISPLAY_Y / 2) - 4) + linePrint_notTitle);
+            }
+            stringWithCoordinates = prepareToInsertInMap(x, y, str);
+            addToDisplay(stringWithCoordinates);
+            linePrint_notTitle++;
+
+        } else {
+            y = headline_Y_Position;
+            add(x, y, str);
+            resetLineCounter();
         }
-    }
 
-    public void add(int x, int y, String str) {
-        Map<String, String> StringWithCoordinates = prepareToInsertInMap(x, y, str);
-        addToDisplay(StringWithCoordinates);
     }
 
     public void replace(String str) {
-        countLines--;
-        add(str, Text.NOT_TITLE);
+        linePrint_notTitle--;
+        add(str, Text.CONTENT);
     }
 
     public void reset() {
         updateDisplay();
     }
-
-    private void resetLineCounter() {
-        countLines = 4;
-    }
-
 
     public void set_userName(String name) {
         userName = name;
@@ -79,5 +68,10 @@ public class User_Display extends Display_Config {
 
     public String get_userName() {
         return userName;
+    }
+
+    private void add(int x, int y, String str) {
+        Map<String, String> StringWithCoordinates = prepareToInsertInMap(x, y, str);
+        addToDisplay(StringWithCoordinates);
     }
 }
