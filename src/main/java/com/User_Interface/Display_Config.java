@@ -31,7 +31,7 @@ public class Display_Config extends Display_Const {
     }
 
     private void setTitle() {
-        Map<String, String> title_map = prepareToInsertInMap(getX_center_for(APP_TITLE), 0, APP_TITLE);
+        Map<String, String> title_map = prepareToInsertInMap(0, SIZE_DISPLAY_Y - 1, APP_TITLE);
         addToDisplay(title_map);
     }
 

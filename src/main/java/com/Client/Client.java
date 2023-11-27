@@ -18,8 +18,8 @@ public class Client extends User_Const implements Connectable {
     private UserData messageConstructor;
     private PrintWriter output;
     private final Scanner scanner = new Scanner(System.in);
-    private String serverIp;
-    private int serverPort;
+    private String serverIp = "_";
+    private int serverPort = 0;
     User_Display display;
 
     public Client() {
@@ -27,34 +27,43 @@ public class Client extends User_Const implements Connectable {
         display = new User_Display();
 
         userIp = IpLocal.get();
+
+        display.reset();
+        display.add("server ip: " + serverIp, Text.SERVER_IP);
+        display.add("server port: " + "_", Text.SERVE_PORT);
+        display.add("PLEASE ENTER YOUR NAME", Text.ERROR);
+        display.show();
+
         registerClient();
 
         display.reset();
-        display.add("Enter server ip", Text.IS_TITLE);
+        display.add("server ip: " + serverIp, Text.SERVER_IP);
+        display.add("server port: " + "_", Text.SERVE_PORT);
+        display.add("ENTER SERVER IP", Text.ERROR);
         display.show();
+
         init_Server_Ip();
 
         display.reset();
-        display.add("Enter server port", Text.IS_TITLE);
+        display.add("server ip: " + serverIp, Text.SERVER_IP);
+        display.add("server port: " + "_", Text.SERVE_PORT);
+        display.add("ENTER SERVER IP", Text.ERROR);
         display.show();
-        init_Server_Port();
-    }
 
-    @Override
-    public void startConnect() {
+        init_Server_Port();
+
+        display.reset();
+        display.add("server ip: " + serverIp, Text.SERVER_IP);
+        display.add("server port: " + serverPort, Text.SERVE_PORT);
+        display.add("...connection to the server...", Text.ERROR);
+        display.show();
 
         try {
-            connectingToServer(serverIp, serverPort);
-            System.out.println("Success connection");
-            keyboardTapping();
-        } catch (IOException e) {
-            // TODO logging
-            System.out.println("This server is currently unavailable");
-            System.out.println("   Try connecting later");
-            System.out.println("   or try connected to another server");
-
-            init_Server_Ip();
+            Thread.sleep(2700);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+        System.out.println("exit");
     }
 
     /**
@@ -62,24 +71,21 @@ public class Client extends User_Const implements Connectable {
      */
     public void init_Server_Ip() {
 
+
         String ip = scanner.nextLine();
         if (Validator.isValid(ip)) {
             serverIp = ip;
         } else {
             // TODO logging
 
-            display.add("You entered an incorrect IP", Text.IS_ERROR);
-            display.add("Try again", Text.IS_ERROR);
+            display.add("YOU ENTERED AN INCORRECT IP", Text.ERROR);
+            display.add("TRY AGAIN", Text.ERROR);
             display.show();
             init_Server_Ip();
         }
     }
 
     public void init_Server_Port() {
-
-        display.replace("Enter server ip ☑");
-        display.add("Enter server port", Text.CONTENT);
-        display.show();
 
         try {
             int port = Integer.parseInt(scanner.nextLine());
@@ -88,18 +94,19 @@ public class Client extends User_Const implements Connectable {
                 serverPort = port;
             } else {
                 // TODO logging
-                display.add("You entered an incorrect PORT", Text.CONTENT);
-                display.add("   Try again", Text.CONTENT);
+
+                display.add("YOU ENTERED AN INCORRECT PORT", Text.ERROR);
+                display.add("TRY AGAIN", Text.ERROR);
                 display.show();
-                init_Server_Ip();
+                init_Server_Port();
             }
         } catch (NumberFormatException e) {
             // TODO logging
-            display.add("You entered an incorrect PORT", Text.CONTENT);
-            display.add("   Try again", Text.CONTENT);
-            display.show();
-            init_Server_Ip();
 
+            display.add("YOU ENTERED AN INCORRECT PORT", Text.ERROR);
+            display.add("TRY AGAIN", Text.ERROR);
+            display.show();
+            init_Server_Port();
         }
     }
 
@@ -113,12 +120,16 @@ public class Client extends User_Const implements Connectable {
 
     private void registerClient() {
 
-        display.reset();
-        display.add("Please enter your name:", Text.IS_TITLE);
-        display.show();
         String name = scanner.nextLine();
 
         if (!set_Name(name)) {
+
+            display.add("Your indicate not valid name:", Text.ERROR);
+            display.add("* Name can't be empty", Text.ERROR);
+            display.add("* Name must contain no more than 14 characters", Text.ERROR);
+            display.add("* Name must contain no more than 1 word", Text.ERROR);
+            display.add("* you can use \"_\" or \"-\"", Text.ERROR);
+            display.show();
             registerClient();
         }
         display.set_userName(name);
@@ -146,13 +157,6 @@ public class Client extends User_Const implements Connectable {
 
     private boolean set_Name(String name) {
         if (name.isEmpty() || name.length() > MAX_NAME_LENGTH || get_WordCount(name) > 1) {
-
-            display.add("Your indicate not valid name:", Text.CONTENT);
-            display.add("* Name can't be empty", Text.CONTENT);
-            display.add("* Name must contain no more than 14 characters", Text.CONTENT);
-            display.add("* Name must contain no more than 1 word", Text.CONTENT);
-            display.add("* you can use \"_\" or \"-\"", Text.CONTENT);
-            display.show();
             return false;
         }
         userName = name;
@@ -174,6 +178,23 @@ public class Client extends User_Const implements Connectable {
                 output.println(message);
                 output.flush();
             }
+        }
+    }
+
+    @Override
+    public void startConnect() {
+
+        try {
+            connectingToServer(serverIp, serverPort);
+            System.out.println("Success connection");
+            keyboardTapping();
+        } catch (IOException e) {
+            // TODO logging
+            System.out.println("This server is currently unavailable");
+            System.out.println("   Try connecting later");
+            System.out.println("   or try connected to another server");
+
+            init_Server_Ip();
         }
     }
 }

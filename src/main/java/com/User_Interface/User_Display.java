@@ -33,17 +33,25 @@ public class User_Display extends Display_Config {
 
         Map<String, String> stringWithCoordinates;
 
-        if (text != Text.IS_TITLE) {
+        if (text != Text.TITLE) {
 
             if (text == Text.CONTENT) {
-                y = (headline_Y_Position + 1) + linePrint_notTitle;
+                y = (headline_Y_Position + 1) + location_y_linePrint_notTitle;
             }
-            if (text == Text.IS_ERROR) {
-                y = ((Math.round((float) SIZE_DISPLAY_Y / 2) - 4) + linePrint_notTitle);
+            if (text == Text.ERROR) {
+                y = ((Math.round((float) SIZE_DISPLAY_Y / 2) - 5) + location_y_linePrint_notTitle);
+            }
+            if (text == Text.SERVER_IP) {
+                x = location_serverIp[X_POINT];
+                y = location_serverIp[Y_POINT];
+            }
+            if (text == Text.SERVE_PORT) {
+                x = location_serverPort[X_POINT];
+                y = location_serverPort[Y_POINT];
             }
             stringWithCoordinates = prepareToInsertInMap(x, y, str);
             addToDisplay(stringWithCoordinates);
-            linePrint_notTitle++;
+            location_y_linePrint_notTitle++;
 
         } else {
             y = headline_Y_Position;
@@ -53,8 +61,12 @@ public class User_Display extends Display_Config {
 
     }
 
+    /**
+     * this method simply prints on top of the line above the current one
+     * @param str String
+     */
     public void replace(String str) {
-        linePrint_notTitle--;
+        location_y_linePrint_notTitle--;
         add(str, Text.CONTENT);
     }
 
