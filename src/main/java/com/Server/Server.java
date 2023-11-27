@@ -1,7 +1,7 @@
-package com.ServerSide;
+package com.Server;
 
-import com.Instruments.Connectable;
-import com.Instruments.UserData;
+import com.Utils.Connectable;
+import com.Utils.UserData;
 
 import java.io.IOException;
 import java.net.ServerSocket;

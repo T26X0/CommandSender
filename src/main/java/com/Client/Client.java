@@ -1,10 +1,9 @@
-package com.ClientSide;
+package com.Client;
 
 
-import com.Instruments.Connectable;
-import com.Instruments.IpLocal;
-import com.Instruments.UserData;
-import com.Instruments.Validator;
+import com.Utils.Connectable;
+import com.Utils.UserData;
+import com.Utils.Validator;
 
 import java.io.IOException;
 import java.io.PrintWriter;
