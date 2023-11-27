@@ -8,10 +8,22 @@
 </div>
 
 ## About program:
-<pre>
-    << In the future it will be necessary >> 
-    << to insert a normal description >>
-</pre>
+<div>
+    <pre>
+        << In the future it will be necessary >> 
+        << to insert a normal description >>
+    </pre>
+</div>
+
+## Development process:
+
+<div align="center">
+    <h3>TUI (Terminal user interface) - version 1.0 </h3>
+    Final registration and connection page
+    <pre>Final registration and connection page</pre>
+    <img height="300" src="src\main\resources\images\demo_1.jpg" width="360"/>
+</div>
+
 
 
 ## Development Setup:
