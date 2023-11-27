@@ -25,6 +25,7 @@ public class Client implements Connectable {
         registerClient();
         settingIpPortServer();
 
+
     }
 
     @Override

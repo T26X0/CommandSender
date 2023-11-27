@@ -1,18 +1,19 @@
 package com.User_Interface;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 abstract class Config {
 
     private final int X_POINT = 0;
     private final int Y_POINT = 1;
-
     protected final String frameSymbol_x = "_";
     protected final String frameSymbol_y = "|";
-    protected final int frameSize_x = 60;
-    protected final int frameSize_y = 15;
+    protected final int frameSize_x = 70;
+    protected final int frameSize_y = 20;
     protected final int[][] frameLocation_top = new int[frameSize_x][2];
     protected final int[][] frameLocation_down = new int[frameSize_x][2];
     protected final int[][] frameLocation_left = new int[frameSize_y - 1][2];
@@ -24,7 +25,41 @@ abstract class Config {
         setVertical_line();
         set_frame();
         fillEmptiness();
-        show_display();
+    }
+
+    protected Map<String, String> prepareToInsert(int x, int y, String str) {
+        String coordinatesForKey;
+        String letterForValue;
+        Map<String, String> resultMap = new HashMap<>();
+
+        char[] numbersOfChars = str.toCharArray();
+
+        for (int i = 0; i < numbersOfChars.length; i++) {
+            coordinatesForKey = getCoordinates(x + i, y);
+            letterForValue = String.valueOf(numbersOfChars[i]);
+            resultMap.put(coordinatesForKey, letterForValue);
+        }
+
+        return resultMap;
+    }
+
+    protected void addToMap(Map<String, String> map) {
+        List<String> keys = new ArrayList<String>(map.keySet());
+        for (String key : keys) {
+            String value = map.get(key);
+
+            if (working_display.get(key).equals(" ")) {
+                working_display.put(key, value);
+            }
+        }
+    }
+
+    protected static String getCoordinates(int x, int y) {
+        return x + ", " + y;
+    }
+
+    protected static String getCoordinates(String x, String y) {
+        return x + ", " + y;
     }
 
     private void setHorizontal_line() {
@@ -65,31 +100,31 @@ abstract class Config {
 
     private void set_frame() {
 
-        for (int[] ints : frameLocation_left) {
-            String x = String.valueOf(ints[X_POINT]);
-            String y = String.valueOf(ints[Y_POINT]);
-            String coordinates = x + ", " + y;
+        for (int[] coordinates_X_Y : frameLocation_left) {
+            String x = String.valueOf(coordinates_X_Y[X_POINT]);
+            String y = String.valueOf(coordinates_X_Y[Y_POINT]);
+            String coordinates = getCoordinates(x, y);
             working_display.putIfAbsent(coordinates, frameSymbol_y);
         }
 
-        for (int[] ints : frameLocation_right) {
-            String x = String.valueOf(ints[X_POINT]);
-            String y = String.valueOf(ints[Y_POINT]);
-            String coordinates = x + ", " + y;
+        for (int[] coordinates_X_Y : frameLocation_right) {
+            String x = String.valueOf(coordinates_X_Y[X_POINT]);
+            String y = String.valueOf(coordinates_X_Y[Y_POINT]);
+            String coordinates = getCoordinates(x, y);
             working_display.putIfAbsent(coordinates, frameSymbol_y);
         }
 
-        for (int[] ints : frameLocation_top) {
-            String x = String.valueOf(ints[X_POINT]);
-            String y = String.valueOf(ints[Y_POINT]);
-            String coordinates = x + ", " + y;
+        for (int[] coordinates_X_Y : frameLocation_top) {
+            String x = String.valueOf(coordinates_X_Y[X_POINT]);
+            String y = String.valueOf(coordinates_X_Y[Y_POINT]);
+            String coordinates = getCoordinates(x, y);
             working_display.putIfAbsent(coordinates, frameSymbol_x);
         }
 
-        for (int[] ints : frameLocation_down) {
-            String x = String.valueOf(ints[X_POINT]);
-            String y = String.valueOf(ints[Y_POINT]);
-            String coordinates = x + ", " + y;
+        for (int[] coordinates_X_Y : frameLocation_down) {
+            String x = String.valueOf(coordinates_X_Y[X_POINT]);
+            String y = String.valueOf(coordinates_X_Y[Y_POINT]);
+            String coordinates = getCoordinates(x, y);
             working_display.putIfAbsent(coordinates, frameSymbol_x);
         }
     }
@@ -97,19 +132,9 @@ abstract class Config {
     private void fillEmptiness() {
         for (int x = 0; x < frameSize_x; x++) {
             for (int y = 0; y < frameSize_y; y++) {
-                String coordinates = x + ", " + y;
+                String coordinates = getCoordinates(x, y);
                 working_display.putIfAbsent(coordinates, " ");
             }
-        }
-    }
-
-    private void show_display() {
-        for (int y = 0; y < frameSize_y; y++) {
-            for (int x = 0; x < frameSize_x; x++) {
-                String coordinates = x + ", " + y;
-                System.out.print(working_display.get(coordinates));
-            }
-            System.out.println();
         }
     }
 }
