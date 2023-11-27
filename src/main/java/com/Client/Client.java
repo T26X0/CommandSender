@@ -1,6 +1,8 @@
 package com.Client;
 
 
+import com.User_Interface.Display_Config;
+import com.User_Interface.User_Display;
 import com.Utils.Connectable;
 import com.Utils.UserData;
 import com.Utils.Validator;
@@ -10,7 +12,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client implements Connectable {
+public class Client extends User_Config implements Connectable {
     private String userIp;
     private String userName;
     private UserData messageConstructor;
@@ -18,8 +20,11 @@ public class Client implements Connectable {
     private final Scanner scanner = new Scanner(System.in);
     private String serverIp;
     private int serverPort;
+    User_Display display;
 
     public Client() {
+
+        display = new User_Display();
 
         userIp = IpLocal.get();
         registerClient();
@@ -82,7 +87,8 @@ public class Client implements Connectable {
 
     private void registerClient() {
 
-        System.out.println("Please enter your name...");
+        display.add_Element("Please enter your name:");
+        display.show_display();
         String name = scanner.nextLine();
 
         if (!setName(name)) {
@@ -110,7 +116,7 @@ public class Client implements Connectable {
 
     private boolean setName(String name) {
         System.out.println();
-        if (name.isEmpty() || name.length() > 14 || getWordCount(name) > 1) {
+        if (name.isEmpty() || name.length() > MAX_NAME_LENGTH || getWordCount(name) > 1) {
             System.out.println("Your indicate not valid name:");
             System.out.println("    [*] Name can't be empty");
             System.out.println("    [*] Name must contain no more than 14 characters");
