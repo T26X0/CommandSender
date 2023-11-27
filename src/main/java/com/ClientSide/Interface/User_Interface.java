@@ -1,7 +1,8 @@
 package com.ClientSide.Interface;
 
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <h2>Class for visualization client actions</h2>
@@ -15,53 +16,8 @@ public class User_Interface extends Config {
 //        app.generalRendering();
 //        System.out.println(Arrays.deepToString(app.frameLocation_x));
     }
-
-    private void generalRendering() {
-
-        for (int y = 0; y < frameSize_y; y++) {
-            for (int x = 0; x < frameSize_x; x++) {
-                drawFrame(x, y);
-            }
-            System.out.println();
-        }
-    }
-
-    private void drawFrame(int x, int y) {
-        // painting the top line
-        if (y == 0) {
-            System.out.print(frameSymbol_x);
-        }
-        // painting the down line
-        if (y == frameSize_y - 1) {
-            System.out.print(frameSymbol_x);
-
-        }
-        // painting the left line
-        if (x == 0 && y != 0 && y != frameSize_y - 1) {
-            System.out.print(frameSymbol_y);
-        }
-        // painting the right line
-        if (x == frameSize_x - 1 && y != 0 && y != frameSize_y - 1) {
-            System.out.print(frameSymbol_y);
-        }
-        // painting empty space in the center
-        if (!(y == 0 || y == frameSize_y - 1)) {
-            spaceCount++;
-            System.out.print(" ");
-        }
-        //
-
-        if (x == frameSize_x - 1 && y == frameSize_y - 1) {
-            System.out.println();
-        }
-    }
-
-    private void drawSpace() {
-        for (int i = 0; i < spaceCount; i++) {
-            System.out.print(" ");
-        }
-    }
 }
+
 
 abstract class Config {
 
@@ -72,16 +28,18 @@ abstract class Config {
     protected final String frameSymbol_y = "|";
     protected final int frameSize_x = 60;
     protected final int frameSize_y = 15;
-    protected int spaceCount = 0;
     protected final int[][] frameLocation_top = new int[frameSize_x][2];
     protected final int[][] frameLocation_down = new int[frameSize_x][2];
     protected final int[][] frameLocation_left = new int[frameSize_y - 1][2];
     protected final int[][] frameLocation_right = new int[frameSize_y - 1][2];
-
+    protected Map<String, String> working_display = new HashMap<>();
 
     public Config() {
         setHorizontal_line();
         setVertical_line();
+        set_frame();
+        fillEmptiness();
+        show_display();
     }
 
     private void setHorizontal_line() {
@@ -120,4 +78,53 @@ abstract class Config {
         }
     }
 
+    private void set_frame() {
+
+        for (int[] ints : frameLocation_left) {
+            String x = String.valueOf(ints[X_POINT]);
+            String y = String.valueOf(ints[Y_POINT]);
+            String coordinates = x + ", " + y;
+            working_display.putIfAbsent(coordinates, frameSymbol_y);
+        }
+
+        for (int[] ints : frameLocation_right) {
+            String x = String.valueOf(ints[X_POINT]);
+            String y = String.valueOf(ints[Y_POINT]);
+            String coordinates = x + ", " + y;
+            working_display.putIfAbsent(coordinates, frameSymbol_y);
+        }
+
+        for (int[] ints : frameLocation_top) {
+            String x = String.valueOf(ints[X_POINT]);
+            String y = String.valueOf(ints[Y_POINT]);
+            String coordinates = x + ", " + y;
+            working_display.putIfAbsent(coordinates, frameSymbol_x);
+        }
+
+        for (int[] ints : frameLocation_down) {
+            String x = String.valueOf(ints[X_POINT]);
+            String y = String.valueOf(ints[Y_POINT]);
+            String coordinates = x + ", " + y;
+            working_display.putIfAbsent(coordinates, frameSymbol_x);
+        }
+    }
+
+    private void fillEmptiness() {
+        for (int x = 0; x < frameSize_x; x++) {
+            for (int y = 0; y < frameSize_y; y++) {
+                String coordinates = x + ", " + y;
+                working_display.putIfAbsent(coordinates, " ");
+            }
+        }
+    }
+
+    private void show_display() {
+        for (int y = 0; y < frameSize_y; y++) {
+            for (int x = 0; x < frameSize_x; x++) {
+                String coordinates = x + ", " + y;
+                System.out.print(working_display.get(coordinates));
+            }
+            System.out.println();
+        }
+    }
 }
