@@ -9,9 +9,9 @@ import java.util.Arrays;
  * <pre>x = 30</pre>
  * <pre>y = 30</pre>
  */
-public class MainApp extends Config {
+public class User_Interface extends Config {
     public static void main(String[] args) {
-        MainApp app = new MainApp();
+        User_Interface app = new User_Interface();
 //        app.generalRendering();
 //        System.out.println(Arrays.deepToString(app.frameLocation_x));
     }
@@ -70,20 +70,23 @@ abstract class Config {
     protected final int frameSize_x = 60;
     protected final int frameSize_y = 15;
     protected int spaceCount = 0;
-    protected final int[][] frameLocation_x = new int[frameSize_x][2];
-    protected final int[][] frameLocation_y = new int[frameSize_y][2];
+    protected final int[][] frameLocation_top = new int[frameSize_x][2];
+    protected final int[][] frameLocation_down = new int[frameSize_x][2];
 
     public Config() {
-        createFrame_x();
+        setHorizontal_line();
+        System.out.println(Arrays.deepToString(frameLocation_top));
+        System.out.println(Arrays.deepToString(frameLocation_down));
     }
 
-    private void createFrame_x() {
-        for (int i = 0; i < frameSize_x; i++) {
-            for (int k = 0; k < 2; k++) {
-                if (k == 0) {
-                    frameLocation_x[i][k] = i;
+    private void setHorizontal_line() {
+        for (int x = 0; x < frameSize_x; x++) {
+            for (int y = 0; y < 2; y++) {
+                if (y == 0) {
+                    frameLocation_top[x][y] = x;
+                    frameLocation_down[x][y] = x;
                 } else {
-                    frameLocation_x[i][k] = 0;
+                    frameLocation_down[x][y] = frameSize_y - 1;
                 }
             }
         }
