@@ -65,6 +65,9 @@ public class User_Interface extends Config {
 
 abstract class Config {
 
+    private final int X_POINT = 0;
+    private final int Y_POINT = 1;
+
     protected final String frameSymbol_x = "_";
     protected final String frameSymbol_y = "|";
     protected final int frameSize_x = 60;
@@ -72,23 +75,49 @@ abstract class Config {
     protected int spaceCount = 0;
     protected final int[][] frameLocation_top = new int[frameSize_x][2];
     protected final int[][] frameLocation_down = new int[frameSize_x][2];
+    protected final int[][] frameLocation_left = new int[frameSize_y - 1][2];
+    protected final int[][] frameLocation_right = new int[frameSize_y - 1][2];
+
 
     public Config() {
         setHorizontal_line();
-        System.out.println(Arrays.deepToString(frameLocation_top));
-        System.out.println(Arrays.deepToString(frameLocation_down));
+        setVertical_line();
     }
 
     private void setHorizontal_line() {
-        for (int x = 0; x < frameSize_x; x++) {
-            for (int y = 0; y < 2; y++) {
-                if (y == 0) {
-                    frameLocation_top[x][y] = x;
-                    frameLocation_down[x][y] = x;
-                } else {
-                    frameLocation_down[x][y] = frameSize_y - 1;
+        for (int queue = 0; queue < frameSize_x; queue++) {
+            for (int cursor = 0; cursor < 2; cursor++) {
+
+                switch (cursor) {
+                    case X_POINT:
+                        frameLocation_top[queue][X_POINT] = queue;
+                        frameLocation_down[queue][X_POINT] = queue;
+                        break;
+                    case Y_POINT:
+                        frameLocation_top[queue][Y_POINT] = 0;
+                        frameLocation_down[queue][Y_POINT] = frameSize_y - 1;
+                        break;
                 }
             }
         }
     }
+
+    private void setVertical_line() {
+        for (int queue = 0; queue < frameSize_y - 1; queue++) {
+            for (int cursor = 0; cursor < 2; cursor++) {
+
+                switch (cursor) {
+                    case X_POINT:
+                        frameLocation_left[queue][X_POINT] = 0;
+                        frameLocation_right[queue][X_POINT] = frameSize_x - 1;
+                        break;
+                    case Y_POINT:
+                        frameLocation_left[queue][Y_POINT] = queue + 1;
+                        frameLocation_right[queue][Y_POINT] = queue + 1;
+                        break;
+                }
+            }
+        }
+    }
+
 }
