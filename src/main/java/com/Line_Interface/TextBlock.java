@@ -6,21 +6,21 @@ public enum TextBlock {
     /**
      * Provides ONE LINE for TITLE block
      */
-    TITLE(Display_Const.location_X_textBlock_TITLE),
+    TITLE(Display_Const.textBlock_TITLE_location_X),
 
     /**
      * Provides TWO LINES for NOTIFICATION block
      */
-    NOTIFICATION(Display_Const.location_X_textBlock_NOTIFICATION),
+    NOTIFICATION(Display_Const.textBlock_NOTIFICATION_location_X),
 
     /**
      * Provides FOUR LINES for CONTEXT block
      */
-    CONTENT(Display_Const.location_X_textBlock_CONTENT),
+    CONTENT(Display_Const.textBlock_CONTENT_location_X),
 
-    SERVER_IP(Display_Const.location_X_Y_block_serverIp),
-    SERVER_PORT(Display_Const.location_X_Y_block_serverPort),
-    USER_NAME(Display_Const.location_X_Y_userName);
+    SERVER_IP(Display_Const.block_serverIp_position_X_Y),
+    SERVER_PORT(Display_Const.block_serverPort_position_X_Y),
+    USER_NAME(Display_Const.position_X_Y_userName);
 
     final int[] coordinates;
 

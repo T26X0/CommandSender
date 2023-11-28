@@ -7,31 +7,29 @@ public class User_Fields {
     private static String serverIp = "...";
     private static int serverPort = 0;
 
-    public static void set_UserName(String name) {
+    public static void set_userName(String name) {
         userName = name;
     }
-    public static void set_UserIp(String ip) {
+    public static void set_userIp(String ip) {
         userIp = ip;
     }
-    public static void set_ServerIp(String ip) {
+    public static void set_serverIp(String ip) {
         serverIp = ip;
     }
-    public static void set_ServerPort(int port) {
+    public static void set_serverPort(int port) {
         serverPort = port;
     }
 
-    public static String get_UserIp() {
+    public static String get_userIp() {
         return userIp;
     }
-    public static String get_UserName() {
+    public static String get_userName() {
         return userName;
     }
-    public static String get_ServerIp() {
+    public static String get_serverIp() {
         return serverIp;
     }
-    public static int get_ServerPort() {
+    public static int get_serverPort() {
         return serverPort;
     }
-
-
 }

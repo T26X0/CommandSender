@@ -18,13 +18,12 @@ public class User_Display extends Display_Config {
 
 
     public void add(String str, TextBlock textBlock) throws IOException {
-        int x = getX_center_for(str);
+        int x = get_X_for_centering(str);
         int y = 0;
 
         Map<String, String> stringWithCoordinates;
 
         if (textBlock == TextBlock.TITLE) {
-            System.out.println(lineCounter);
             if (lineCounter >= TextBlock.TITLE.coordinates.length) {
                 throw new IOException(prepareTextForException(textBlock, str));
             }

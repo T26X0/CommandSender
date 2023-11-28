@@ -22,7 +22,7 @@ public class Client extends User_Fields implements Connectable {
 
         display = new User_Display();
 
-        User_Fields.set_UserIp(IpLocal.get());
+        User_Fields.set_userIp(IpLocal.get());
 
         display.reset();
         display.add("PLEASE ENTER YOUR NAME:", TextBlock.TITLE);
@@ -62,7 +62,7 @@ public class Client extends User_Fields implements Connectable {
 
         String ip = scanner.nextLine();
         if (Validator.isValid(ip)) {
-            User_Fields.set_ServerIp(ip);
+            User_Fields.set_serverIp(ip);
         } else {
             // TODO logging
 
@@ -79,7 +79,7 @@ public class Client extends User_Fields implements Connectable {
             int port = Integer.parseInt(scanner.nextLine());
 
             if (Validator.isValid(port)) {
-                User_Fields.set_ServerPort(port);
+                User_Fields.set_serverPort(port);
             } else {
                 // TODO logging
 
@@ -101,7 +101,6 @@ public class Client extends User_Fields implements Connectable {
     }
 
 
-
     private void registerClient() throws IOException {
 
         String name = scanner.nextLine();
@@ -110,14 +109,13 @@ public class Client extends User_Fields implements Connectable {
 
             display.add("Your indicate not valid name:", TextBlock.CONTENT);
             display.add("* Name can't be empty", TextBlock.CONTENT);
-            display.add("* Name must contain no more than 14 characters", TextBlock.CONTENT);
-            display.add("* Name must contain no more than 1 word", TextBlock.CONTENT);
+            display.add("* Name must contain no more than 14 characters and 1 word", TextBlock.CONTENT);
             display.add("* you can use \"_\" or \"-\"", TextBlock.CONTENT);
             display.show();
             registerClient();
         }
-        User_Fields.set_UserName(name);
-        messageConstructor = new UserData(get_UserIp(), get_UserName());
+        User_Fields.set_userName(name);
+        messageConstructor = new UserData(get_userIp(), get_userName());
 
 
     }
@@ -143,7 +141,7 @@ public class Client extends User_Fields implements Connectable {
         if (name.isEmpty() || name.length() > MAX_NAME_LENGTH || get_WordCount(name) > 1) {
             return false;
         }
-        User_Fields.set_UserName(name);
+        User_Fields.set_userName(name);
         return true;
 
     }
@@ -169,7 +167,7 @@ public class Client extends User_Fields implements Connectable {
     public void startConnect() {
 
         try {
-            connectingToServer(display.get_ServerIp(), display.get_ServerPort());
+            connectingToServer(get_serverIp(), get_serverPort());
             System.out.println("Success connection");
             keyboardTapping();
         } catch (IOException e) {

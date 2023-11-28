@@ -35,27 +35,53 @@ public class Display_Config extends Display_Const {
     }
 
     private void add_templateHeadLine() {
+        set_topHeadBlock();
+        set_commandsBLock();
+    }
+
+    private void set_commandsBLock() {
         Map<String, String> mapWithCoordinates;
         int x;
         int y;
 
+        List<String> keys = new ArrayList<>(allCommands.keySet());
+        for (String key : keys) {
+            int[] value = allCommands.get(key);
+            x = value[X_POINT];
+            y = value[Y_POINT];
+            mapWithCoordinates = prepareToInsertInMap(x, y, key);
+            addToDisplay(mapWithCoordinates);
+        }
+    }
+
+    private void set_topHeadBlock() {
+        Map<String, String> mapWithCoordinates;
+        int x;
+        int y;
+        String serverPort;
+
         x = TextBlock.USER_NAME.coordinates[X_POINT];
         y = TextBlock.USER_NAME.coordinates[Y_POINT];
         mapWithCoordinates = prepareToInsertInMap(x, y,
-                User_Fields.get_UserName());
-        showMap(mapWithCoordinates);
+                User_Fields.get_userName());
         addToDisplay(mapWithCoordinates);
 
         x = TextBlock.SERVER_IP.coordinates[X_POINT];
         y = TextBlock.SERVER_IP.coordinates[Y_POINT];
         mapWithCoordinates = prepareToInsertInMap(x, y,
-                Display_Const.title_X_Y_block_serverIp + User_Fields.get_ServerIp());
+                Display_Const.block_serverIp_title + User_Fields.get_serverIp());
         addToDisplay(mapWithCoordinates);
 
         x = TextBlock.SERVER_PORT.coordinates[X_POINT];
         y = TextBlock.SERVER_PORT.coordinates[Y_POINT];
+        if (User_Fields.get_serverPort() == 0) {
+            serverPort = "...";
+        } else {
+            serverPort = "" + User_Fields.get_serverPort();
+        }
+
         mapWithCoordinates = prepareToInsertInMap(x, y,
-                Display_Const.title_X_Y_block_serverPort + User_Fields.get_ServerPort());
+                Display_Const.block_serverPort_title + serverPort);
         addToDisplay(mapWithCoordinates);
     }
 
@@ -136,37 +162,36 @@ public class Display_Config extends Display_Const {
             String x = String.valueOf(coordinates_X_Y[X_POINT]);
             String y = String.valueOf(coordinates_X_Y[Y_POINT]);
             String coordinates = getCoordinates(x, y);
-            working_display.put(coordinates, frameSymbol_x);
+            working_display.put(coordinates, symbol_frame_x);
         }
 
         for (int[] coordinates_X_Y : location_medium_lineFrame) {
             String x = String.valueOf(coordinates_X_Y[X_POINT]);
             String y = String.valueOf(coordinates_X_Y[Y_POINT]);
             String coordinates = getCoordinates(x, y);
-            working_display.put(coordinates, frameSymbol_x);
+            working_display.put(coordinates, symbol_frame_x);
         }
 
         for (int[] coordinates_X_Y : location_left_lineFrame) {
             String x = String.valueOf(coordinates_X_Y[X_POINT]);
             String y = String.valueOf(coordinates_X_Y[Y_POINT]);
             String coordinates = getCoordinates(x, y);
-            working_display.put(coordinates, frameSymbol_y);
+            working_display.put(coordinates, symbol_frame_y);
         }
 
         for (int[] coordinates_X_Y : location_right_lineFrame) {
             String x = String.valueOf(coordinates_X_Y[X_POINT]);
             String y = String.valueOf(coordinates_X_Y[Y_POINT]);
             String coordinates = getCoordinates(x, y);
-            working_display.put(coordinates, frameSymbol_y);
+            working_display.put(coordinates, symbol_frame_y);
         }
 
         for (int[] coordinates_X_Y : location_line_nameBox) {
             String x = String.valueOf(coordinates_X_Y[X_POINT]);
             String y = String.valueOf(coordinates_X_Y[Y_POINT]);
             String coordinates = getCoordinates(x, y);
-            working_display.put(coordinates, frameSymbol_y);
+            working_display.put(coordinates, symbol_frame_y);
         }
-
 
 
 //        for (int[] coordinates_X_Y : lineLocation_down) {
@@ -212,6 +237,7 @@ public class Display_Config extends Display_Const {
 
     /**
      * This method serves for my tests
+     *
      * @param map Map
      */
     private void showMap(Map<String, String> map) {
