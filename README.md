@@ -23,11 +23,16 @@
 
 ## Development process:
 
-<div align="center">
+<div>
     <h3>TUI (Terminal user interface) - version 1.0 </h3>
-    Final registration and connection page
-    <pre>Final registration and connection page</pre>
-    <img height="300" src="src\main\resources\images\demo_1.jpg" width="360"/>
+    <pre>Final registration and connection page                                  Logo</pre>
+     <img height="300" src="src\main\resources\images\demo_1.jpg" width="360"/>
+     <img height="300" src="src\main\resources\images\demo_3.1.jpg" width="360"/>
+</div>
+<div>
+    <h3>TUI (Terminal user interface) - version 1.1 </h3>
+    <pre>Main page with commands</pre>
+     <img height="300" src="src\main\resources\images\demo_2.jpg" width="360"/>
 </div>
 
 

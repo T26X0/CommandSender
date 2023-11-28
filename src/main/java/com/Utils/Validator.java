@@ -19,11 +19,7 @@ public class Validator {
         Matcher matcher = pattern.matcher(ip);
 
 
-        if (matcher.matches()) {
-            return true;
-        } else {
-            return false;
-        }
+        return matcher.matches();
     }
 
     public static boolean isValid(int port) {

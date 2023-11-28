@@ -1,13 +1,15 @@
-package com.Line_Interface;
+package com.User_Display.Config;
 
 
-import com.Client.User_Fields;
+import com.Line_Sender.Config.User_Fields;
 
+import java.io.IOException;
 import java.util.*;
 
 
-public class Display_Config extends Display_Const {
+public class LineDisplay extends LineDisplay_Const {
 
+    protected static int lineCounter = 0;
     protected final int[][] location_top_line_Frame = new int[SIZE_DISPLAY_X][2];
     protected final int[][] location_medium_lineFrame = new int[SIZE_DISPLAY_X][2];
     protected final int[][] location_down_lineFrame = new int[SIZE_DISPLAY_X][2];
@@ -16,8 +18,10 @@ public class Display_Config extends Display_Const {
     protected final int[][] location_line_nameBox = new int[location_Y_headline + 1][2];
     protected Map<String, String> working_display;
 
-    public Display_Config() {
-        updateDisplay();
+    public void show_logo() {
+        System.out.println(logo_image);
+        System.out.println(logo_text);
+
     }
 
     protected void updateDisplay() {
@@ -35,32 +39,63 @@ public class Display_Config extends Display_Const {
     }
 
     private void add_templateHeadLine() {
+        set_topHeadBlock();
+        if (command_visibility) {
+            set_commandsBLock();
+        }
+    }
+
+    private void set_commandsBLock() {
         Map<String, String> mapWithCoordinates;
         int x;
         int y;
 
-        x = TextBlock.USER_NAME.coordinates[X_POINT];
-        y = TextBlock.USER_NAME.coordinates[Y_POINT];
+        List<String> keys = new ArrayList<>(allCommands.keySet());
+        for (String key : keys) {
+            int[] value = allCommands.get(key);
+            x = value[X_POINT];
+            y = value[Y_POINT];
+            mapWithCoordinates = prepareToInsertInMap(x, y, key);
+            addToDisplay(mapWithCoordinates);
+        }
+    }
+
+    private void set_topHeadBlock() {
+        Map<String, String> mapWithCoordinates;
+        int x;
+        int y;
+        String serverPort;
+
+        x = block_userName_position_X_Y[X_POINT];
+        y = block_userName_position_X_Y[Y_POINT];
         mapWithCoordinates = prepareToInsertInMap(x, y,
-                User_Fields.get_UserName());
-        showMap(mapWithCoordinates);
+                User_Fields.get_userName());
         addToDisplay(mapWithCoordinates);
 
-        x = TextBlock.SERVER_IP.coordinates[X_POINT];
-        y = TextBlock.SERVER_IP.coordinates[Y_POINT];
+        x = block_serverIp_position_X_Y[X_POINT];
+        y = block_serverIp_position_X_Y[Y_POINT];
         mapWithCoordinates = prepareToInsertInMap(x, y,
-                Display_Const.title_X_Y_block_serverIp + User_Fields.get_ServerIp());
+                LineDisplay_Const.block_serverIp_title + User_Fields.get_serverIp());
         addToDisplay(mapWithCoordinates);
 
-        x = TextBlock.SERVER_PORT.coordinates[X_POINT];
-        y = TextBlock.SERVER_PORT.coordinates[Y_POINT];
+        x = block_serverPort_position_X_Y[X_POINT];
+        y = block_serverPort_position_X_Y[Y_POINT];
+        if (User_Fields.get_serverPort() == 0) {
+            serverPort = "...";
+        } else {
+            serverPort = "" + User_Fields.get_serverPort();
+        }
+
         mapWithCoordinates = prepareToInsertInMap(x, y,
-                Display_Const.title_X_Y_block_serverPort + User_Fields.get_ServerPort());
+                LineDisplay_Const.block_serverPort_title + serverPort);
         addToDisplay(mapWithCoordinates);
     }
 
     private void setTitle() {
-        Map<String, String> title_map = prepareToInsertInMap(0, SIZE_DISPLAY_Y - 1, APP_TITLE);
+        Map<String, String> title_map = prepareToInsertInMap(
+                APP_TITLE_location[X_POINT],
+                APP_TITLE_location[Y_POINT],
+                APP_TITLE);
         addToDisplay(title_map);
     }
 
@@ -85,6 +120,7 @@ public class Display_Config extends Display_Const {
     }
 
     private void init_Vertical_line() {
+
         for (int queue = 0; queue < SIZE_DISPLAY_Y - 1; queue++) {
             for (int cursor = 0; cursor < 2; cursor++) {
 
@@ -136,37 +172,36 @@ public class Display_Config extends Display_Const {
             String x = String.valueOf(coordinates_X_Y[X_POINT]);
             String y = String.valueOf(coordinates_X_Y[Y_POINT]);
             String coordinates = getCoordinates(x, y);
-            working_display.put(coordinates, frameSymbol_x);
+            working_display.put(coordinates, symbol_frame_x);
         }
 
         for (int[] coordinates_X_Y : location_medium_lineFrame) {
             String x = String.valueOf(coordinates_X_Y[X_POINT]);
             String y = String.valueOf(coordinates_X_Y[Y_POINT]);
             String coordinates = getCoordinates(x, y);
-            working_display.put(coordinates, frameSymbol_x);
+            working_display.put(coordinates, symbol_frame_x);
         }
 
         for (int[] coordinates_X_Y : location_left_lineFrame) {
             String x = String.valueOf(coordinates_X_Y[X_POINT]);
             String y = String.valueOf(coordinates_X_Y[Y_POINT]);
             String coordinates = getCoordinates(x, y);
-            working_display.put(coordinates, frameSymbol_y);
+            working_display.put(coordinates, symbol_frame_y);
         }
 
         for (int[] coordinates_X_Y : location_right_lineFrame) {
             String x = String.valueOf(coordinates_X_Y[X_POINT]);
             String y = String.valueOf(coordinates_X_Y[Y_POINT]);
             String coordinates = getCoordinates(x, y);
-            working_display.put(coordinates, frameSymbol_y);
+            working_display.put(coordinates, symbol_frame_y);
         }
 
         for (int[] coordinates_X_Y : location_line_nameBox) {
             String x = String.valueOf(coordinates_X_Y[X_POINT]);
             String y = String.valueOf(coordinates_X_Y[Y_POINT]);
             String coordinates = getCoordinates(x, y);
-            working_display.put(coordinates, frameSymbol_y);
+            working_display.put(coordinates, symbol_frame_y);
         }
-
 
 
 //        for (int[] coordinates_X_Y : lineLocation_down) {
@@ -210,8 +245,32 @@ public class Display_Config extends Display_Const {
         return x + ", " + y;
     }
 
+    protected void purify_display() {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (InterruptedException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected void resetLineCounter() {
+        lineCounter = 0;
+    }
+
+    protected void show_display() {
+
+        for (int y = 0; y < SIZE_DISPLAY_Y; y++) {
+            for (int x = 0; x < SIZE_DISPLAY_X; x++) {
+                String coordinates = getCoordinates(x, y);
+                System.out.print(working_display.get(coordinates));
+            }
+            System.out.println();
+        }
+    }
+
     /**
      * This method serves for my tests
+     *
      * @param map Map
      */
     private void showMap(Map<String, String> map) {

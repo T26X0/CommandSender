@@ -1,8 +1,10 @@
-package com.Client;
+package com.Line_Sender;
 
 
-import com.Line_Interface.TextBlock;
-import com.Line_Interface.User_Display;
+import com.Line_Sender.Config.Local_ip;
+import com.Line_Sender.Config.User_Fields;
+import com.User_Display.Config.TextBlock;
+import com.User_Display.User_Display;
 import com.Utils.Connectable;
 import com.Utils.UserData;
 import com.Utils.Validator;
@@ -12,17 +14,18 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client extends User_Fields implements Connectable {
+public class Line_Sender extends User_Fields implements Connectable {
     private UserData messageConstructor;
     private PrintWriter output;
     private final Scanner scanner = new Scanner(System.in);
     User_Display display;
 
-    public Client() throws IOException {
+    public Line_Sender() throws IOException {
 
         display = new User_Display();
+        display.show_logo();
 
-        User_Fields.set_UserIp(IpLocal.get());
+        User_Fields.set_userIp(Local_ip.get());
 
         display.reset();
         display.add("PLEASE ENTER YOUR NAME:", TextBlock.TITLE);
@@ -62,7 +65,7 @@ public class Client extends User_Fields implements Connectable {
 
         String ip = scanner.nextLine();
         if (Validator.isValid(ip)) {
-            User_Fields.set_ServerIp(ip);
+            User_Fields.set_serverIp(ip);
         } else {
             // TODO logging
 
@@ -79,7 +82,7 @@ public class Client extends User_Fields implements Connectable {
             int port = Integer.parseInt(scanner.nextLine());
 
             if (Validator.isValid(port)) {
-                User_Fields.set_ServerPort(port);
+                User_Fields.set_serverPort(port);
             } else {
                 // TODO logging
 
@@ -101,7 +104,6 @@ public class Client extends User_Fields implements Connectable {
     }
 
 
-
     private void registerClient() throws IOException {
 
         String name = scanner.nextLine();
@@ -110,16 +112,14 @@ public class Client extends User_Fields implements Connectable {
 
             display.add("Your indicate not valid name:", TextBlock.CONTENT);
             display.add("* Name can't be empty", TextBlock.CONTENT);
-            display.add("* Name must contain no more than 14 characters", TextBlock.CONTENT);
-            display.add("* Name must contain no more than 1 word", TextBlock.CONTENT);
+            display.add("* Name must contain no more than 11 characters and 1 word", TextBlock.CONTENT);
             display.add("* you can use \"_\" or \"-\"", TextBlock.CONTENT);
             display.show();
             registerClient();
+        }  else {
+            User_Fields.set_userName(name);
+            messageConstructor = new UserData(get_userIp(), get_userName());
         }
-        User_Fields.set_UserName(name);
-        messageConstructor = new UserData(get_UserIp(), get_UserName());
-
-
     }
 
     /**
@@ -143,7 +143,7 @@ public class Client extends User_Fields implements Connectable {
         if (name.isEmpty() || name.length() > MAX_NAME_LENGTH || get_WordCount(name) > 1) {
             return false;
         }
-        User_Fields.set_UserName(name);
+        User_Fields.set_userName(name);
         return true;
 
     }
@@ -169,7 +169,7 @@ public class Client extends User_Fields implements Connectable {
     public void startConnect() {
 
         try {
-            connectingToServer(display.get_ServerIp(), display.get_ServerPort());
+            connectingToServer(get_serverIp(), get_serverPort());
             System.out.println("Success connection");
             keyboardTapping();
         } catch (IOException e) {
@@ -190,7 +190,7 @@ public class Client extends User_Fields implements Connectable {
 
 class Begin {
     public static void main(String[] args) throws IOException {
-        Client client = new Client();
+        Line_Sender client = new Line_Sender();
         client.startConnect();
     }
 }

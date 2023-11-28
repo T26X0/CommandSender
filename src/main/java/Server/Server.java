@@ -1,4 +1,4 @@
-package com.Server;
+package Server;
 
 import com.Utils.Connectable;
 import com.Utils.UserData;

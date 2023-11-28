@@ -1,4 +1,7 @@
-package com.Line_Interface;
+package com.User_Display;
+
+import com.User_Display.Config.LineDisplay;
+import com.User_Display.Config.TextBlock;
 
 import java.io.IOException;
 import java.util.Map;
@@ -9,22 +12,19 @@ import java.util.Map;
  * <pre>x = 30</pre>
  * <pre>y = 30</pre>
  */
-public class User_Display extends Display_Config {
-    protected static int lineCounter = 0;
+public class User_Display extends LineDisplay {
 
     public User_Display() {
         super();
     }
 
-
     public void add(String str, TextBlock textBlock) throws IOException {
-        int x = getX_center_for(str);
+        int x = get_X_for_centering(str);
         int y = 0;
 
         Map<String, String> stringWithCoordinates;
 
         if (textBlock == TextBlock.TITLE) {
-            System.out.println(lineCounter);
             if (lineCounter >= TextBlock.TITLE.coordinates.length) {
                 throw new IOException(prepareTextForException(textBlock, str));
             }
@@ -50,32 +50,6 @@ public class User_Display extends Display_Config {
         lineCounter++;
     }
 
-    private static String prepareTextForException(TextBlock textBlock, String str) {
-        return  "\nMaximum positions in the: " + textBlock.toString() + " block.\n " +
-                "There was an attempt for a text: \"" + str + "\"";
-    }
-
-    public void show() {
-        for (int y = 0; y < SIZE_DISPLAY_Y; y++) {
-            for (int x = 0; x < SIZE_DISPLAY_X; x++) {
-                String coordinates = getCoordinates(x, y);
-                System.out.print(working_display.get(coordinates));
-            }
-            System.out.println();
-        }
-        resetLineCounter();
-    }
-
-    /**
-     * this method simply prints on top of the line above the current one
-     *
-     * @param str String
-     */
-    public void replace(String str) throws IOException {
-        lineCounter--;
-        add(str, TextBlock.NOTIFICATION);
-    }
-
     /**
      * <h3>reset display -> deleting all text block</h3>
      * <pre>
@@ -88,12 +62,14 @@ public class User_Display extends Display_Config {
         updateDisplay();
     }
 
-    private void add(int x, int y, String str) {
-        Map<String, String> StringWithCoordinates = prepareToInsertInMap(x, y, str);
-        addToDisplay(StringWithCoordinates);
+    public void show() {
+        purify_display();
+        show_display();
+        resetLineCounter();
     }
 
-    protected void resetLineCounter() {
-        lineCounter = 0;
+    private static String prepareTextForException(TextBlock textBlock, String str) {
+        return "\nMaximum positions in the: " + textBlock.toString() + " block.\n " +
+                "There was an attempt for a text: \"" + str + "\"";
     }
 }
