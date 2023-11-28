@@ -9,6 +9,7 @@ class Display_Const extends User_Fields {
     protected static final int X_POINT = 0;
     protected static final int Y_POINT = 1;
     protected static String APP_TITLE;
+    protected static int[] APP_TITLE_location;
     protected static String symbol_frame_x;
     protected static String symbol_frame_y;
     protected static String symbol_for_lineFilling;
@@ -18,9 +19,9 @@ class Display_Const extends User_Fields {
 
     protected static int location_Y_headline;
 
-    protected static int[] textBlock_TITLE_location_X;
-    protected static int[] textBlock_NOTIFICATION_location_X;
-    protected static int[] textBlock_CONTENT_location_X;
+    protected static int[] textBlock_TITLE_location_X = new int[1];
+    protected static int[] textBlock_NOTIFICATION_location_X = new int[2];
+    protected static int[] textBlock_CONTENT_location_X = new int[4];
 
     protected static int[] block_serverIp_position_X_Y;
     protected static String block_serverIp_title;
@@ -28,7 +29,7 @@ class Display_Const extends User_Fields {
     protected static int[] block_serverPort_position_X_Y;
     protected static String block_serverPort_title;
 
-    protected static int[] position_X_Y_userName;
+    protected static int[] block_userName_position_X_Y;
     protected static int SIZE_NAME_BOX;
 
     protected static String command_title_headline;
@@ -64,12 +65,13 @@ class Display_Const extends User_Fields {
     }
 
     private static void set_appValues() {
-        APP_TITLE = "LINE SENDER:";
+        SIZE_DISPLAY_X = 80;
+        SIZE_DISPLAY_Y = 25;
         symbol_frame_x = "_";
         symbol_frame_y = "|";
         symbol_for_lineFilling = "-";
-        SIZE_DISPLAY_X = 80;
-        SIZE_DISPLAY_Y = 25;
+        APP_TITLE = "LINE SENDER:";
+        APP_TITLE_location = new int[] {1, SIZE_DISPLAY_Y - 1};
     }
 
     /**
@@ -88,9 +90,15 @@ class Display_Const extends User_Fields {
         location_Y_headline = 1;
         SIZE_NAME_BOX = 14;
 
-        textBlock_TITLE_location_X = new int[]{4};
-        textBlock_NOTIFICATION_location_X = new int[]{5, 6};
-        textBlock_CONTENT_location_X = new int[]{10, 11, 12, 13};
+        textBlock_TITLE_location_X[0] = 4;
+
+        textBlock_NOTIFICATION_location_X[0] = 5;
+        textBlock_NOTIFICATION_location_X[1] = 6;
+
+        textBlock_CONTENT_location_X[0] = 8;
+        textBlock_CONTENT_location_X[1] = 9;
+        textBlock_CONTENT_location_X[2] = 10;
+        textBlock_CONTENT_location_X[3] = 11;
 
         block_serverIp_position_X_Y = new int[]{1, 1};
         block_serverIp_title = "server ip: ";
@@ -98,7 +106,7 @@ class Display_Const extends User_Fields {
         block_serverPort_position_X_Y = new int[]{Math.round((float) SIZE_DISPLAY_X) / 2, 1};
         block_serverPort_title = "server port: ";
 
-        position_X_Y_userName = new int[]{SIZE_DISPLAY_X - SIZE_NAME_BOX + 2, 1};
+        block_userName_position_X_Y = new int[]{SIZE_DISPLAY_X - SIZE_NAME_BOX + 2, 1};
 
     }
 
@@ -117,15 +125,17 @@ class Display_Const extends User_Fields {
         command_title_cmd8 = "[8] disconnected -" + " SOON";
         command_title_cmd9 = "[9] exit -" + " SOON";
 
-        command_position_X_Y_headline = new int[]{get_X_for_centering(command_title_headline), 14};
+        command_position_X_Y_headline = new int[]{
+                get_X_for_centering(command_title_headline),
+                SIZE_DISPLAY_Y - 8};
 
-        command_position_X_Y_cmd0 = new int[]{2, command_position_X_Y_headline[Y_POINT] + 2};
+        command_position_X_Y_cmd0 = new int[]{2, command_position_X_Y_headline[Y_POINT] + 1};
         command_position_X_Y_cmd1 = new int[]{2, command_position_X_Y_cmd0[Y_POINT] + 1};
         command_position_X_Y_cmd2 = new int[]{2, command_position_X_Y_cmd1[Y_POINT] + 1};
         command_position_X_Y_cmd3 = new int[]{2, command_position_X_Y_cmd2[Y_POINT] + 1};
         command_position_X_Y_cmd4 = new int[]{2, command_position_X_Y_cmd3[Y_POINT] + 1};
 
-        command_position_X_Y_cmd5 = new int[]{get_X_centerDisplay(), command_position_X_Y_headline[Y_POINT] + 2};
+        command_position_X_Y_cmd5 = new int[]{get_X_centerDisplay(), command_position_X_Y_headline[Y_POINT] + 1};
         command_position_X_Y_cmd6 = new int[]{get_X_centerDisplay(), command_position_X_Y_cmd5[Y_POINT] + 1};
         command_position_X_Y_cmd7 = new int[]{get_X_centerDisplay(), command_position_X_Y_cmd6[Y_POINT] + 1};
         command_position_X_Y_cmd8 = new int[]{get_X_centerDisplay(), command_position_X_Y_cmd7[Y_POINT] + 1};

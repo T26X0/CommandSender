@@ -60,20 +60,20 @@ public class Display_Config extends Display_Const {
         int y;
         String serverPort;
 
-        x = TextBlock.USER_NAME.coordinates[X_POINT];
-        y = TextBlock.USER_NAME.coordinates[Y_POINT];
+        x = block_userName_position_X_Y[X_POINT];
+        y = block_userName_position_X_Y[Y_POINT];
         mapWithCoordinates = prepareToInsertInMap(x, y,
                 User_Fields.get_userName());
         addToDisplay(mapWithCoordinates);
 
-        x = TextBlock.SERVER_IP.coordinates[X_POINT];
-        y = TextBlock.SERVER_IP.coordinates[Y_POINT];
+        x = block_serverIp_position_X_Y[X_POINT];
+        y = block_serverIp_position_X_Y[Y_POINT];
         mapWithCoordinates = prepareToInsertInMap(x, y,
                 Display_Const.block_serverIp_title + User_Fields.get_serverIp());
         addToDisplay(mapWithCoordinates);
 
-        x = TextBlock.SERVER_PORT.coordinates[X_POINT];
-        y = TextBlock.SERVER_PORT.coordinates[Y_POINT];
+        x = block_serverPort_position_X_Y[X_POINT];
+        y = block_serverPort_position_X_Y[Y_POINT];
         if (User_Fields.get_serverPort() == 0) {
             serverPort = "...";
         } else {
@@ -86,7 +86,10 @@ public class Display_Config extends Display_Const {
     }
 
     private void setTitle() {
-        Map<String, String> title_map = prepareToInsertInMap(0, SIZE_DISPLAY_Y - 1, APP_TITLE);
+        Map<String, String> title_map = prepareToInsertInMap(
+                APP_TITLE_location[X_POINT],
+                APP_TITLE_location[Y_POINT],
+                APP_TITLE);
         addToDisplay(title_map);
     }
 

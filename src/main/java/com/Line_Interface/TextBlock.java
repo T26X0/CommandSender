@@ -16,11 +16,7 @@ public enum TextBlock {
     /**
      * Provides FOUR LINES for CONTEXT block
      */
-    CONTENT(Display_Const.textBlock_CONTENT_location_X),
-
-    SERVER_IP(Display_Const.block_serverIp_position_X_Y),
-    SERVER_PORT(Display_Const.block_serverPort_position_X_Y),
-    USER_NAME(Display_Const.position_X_Y_userName);
+    CONTENT(Display_Const.textBlock_CONTENT_location_X);
 
     final int[] coordinates;
 
