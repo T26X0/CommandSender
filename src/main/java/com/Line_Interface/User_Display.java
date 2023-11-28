@@ -1,5 +1,4 @@
-package com.User_Interface;
-
+package com.Line_Interface;
 
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import java.util.Map;
  * <pre>y = 30</pre>
  */
 public class User_Display extends Display_Config {
-
 
     public User_Display() {
         super();

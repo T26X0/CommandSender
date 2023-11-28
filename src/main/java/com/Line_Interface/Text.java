@@ -1,7 +1,8 @@
-package com.User_Interface;
+package com.Line_Interface;
 
 public enum Text {
 
+    
     TITLE,
     CONTENT,
     ERROR,

@@ -1,4 +1,4 @@
-package com.User_Interface;
+package com.Line_Interface;
 
 class Display_Const {
     protected static final int X_POINT = 0;

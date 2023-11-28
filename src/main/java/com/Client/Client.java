@@ -1,8 +1,8 @@
 package com.Client;
 
 
-import com.User_Interface.Text;
-import com.User_Interface.User_Display;
+import com.Line_Interface.Text;
+import com.Line_Interface.User_Display;
 import com.Utils.Connectable;
 import com.Utils.UserData;
 import com.Utils.Validator;
