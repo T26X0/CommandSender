@@ -16,7 +16,6 @@ public class User_Display extends Display_Config {
         super();
     }
 
-
     public void add(String str, TextBlock textBlock) throws IOException {
         int x = get_X_for_centering(str);
         int y = 0;
@@ -66,16 +65,6 @@ public class User_Display extends Display_Config {
     }
 
     /**
-     * this method simply prints on top of the line above the current one
-     *
-     * @param str String
-     */
-    public void replace(String str) throws IOException {
-        lineCounter--;
-        add(str, TextBlock.NOTIFICATION);
-    }
-
-    /**
      * <h3>reset display -> deleting all text block</h3>
      * <pre>
      *     1. TextBlock.TITLE
@@ -85,11 +74,6 @@ public class User_Display extends Display_Config {
      */
     public void reset() {
         updateDisplay();
-    }
-
-    private void add(int x, int y, String str) {
-        Map<String, String> StringWithCoordinates = prepareToInsertInMap(x, y, str);
-        addToDisplay(StringWithCoordinates);
     }
 
     protected void resetLineCounter() {

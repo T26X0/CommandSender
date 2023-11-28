@@ -16,10 +16,6 @@ public class Display_Config extends Display_Const {
     protected final int[][] location_line_nameBox = new int[location_Y_headline + 1][2];
     protected Map<String, String> working_display;
 
-    public Display_Config() {
-        updateDisplay();
-    }
-
     protected void updateDisplay() {
         init_Display();
         init_Horizontal_line();
@@ -36,7 +32,9 @@ public class Display_Config extends Display_Const {
 
     private void add_templateHeadLine() {
         set_topHeadBlock();
-        set_commandsBLock();
+        if (command_visibility) {
+            set_commandsBLock();
+        }
     }
 
     private void set_commandsBLock() {
@@ -64,6 +62,7 @@ public class Display_Config extends Display_Const {
         y = block_userName_position_X_Y[Y_POINT];
         mapWithCoordinates = prepareToInsertInMap(x, y,
                 User_Fields.get_userName());
+        showMap(mapWithCoordinates);
         addToDisplay(mapWithCoordinates);
 
         x = block_serverIp_position_X_Y[X_POINT];

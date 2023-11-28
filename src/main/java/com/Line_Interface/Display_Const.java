@@ -56,12 +56,21 @@ class Display_Const extends User_Fields {
     protected static int[] command_position_X_Y_cmd8;
     protected static int[] command_position_X_Y_cmd9;
 
+    /**
+     * The command menu becomes visible only after registration!!!
+     */
+    protected static boolean command_visibility = false;
+
     protected static Map<String, int[]> allCommands = new HashMap<>();
 
     static {
         set_appValues();
         set_displayValues();
         set_commandLines();
+    }
+
+    public static void set_commandVisibility(boolean bool) {
+        command_visibility = bool;
     }
 
     private static void set_appValues() {
@@ -170,8 +179,8 @@ class Display_Const extends User_Fields {
      * @return String
      */
     private static String filledLine(String str) {
-        StringBuilder filled_string = new StringBuilder();
         int str_startsWIth = get_X_for_centering(str);
+        StringBuilder filled_string = new StringBuilder();
 
         for (int i = 0; i < str_startsWIth - 1; i++) {
             filled_string.append(symbol_for_lineFilling);
@@ -182,4 +191,5 @@ class Display_Const extends User_Fields {
         }
         return filled_string.toString();
     }
+
 }
