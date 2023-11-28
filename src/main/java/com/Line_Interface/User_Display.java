@@ -1,5 +1,6 @@
 package com.Line_Interface;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -9,9 +10,49 @@ import java.util.Map;
  * <pre>y = 30</pre>
  */
 public class User_Display extends Display_Config {
+    protected static int lineCounter = 0;
 
     public User_Display() {
         super();
+    }
+
+
+    public void add(String str, TextBlock textBlock) throws IOException {
+        int x = getX_center_for(str);
+        int y = 0;
+
+        Map<String, String> stringWithCoordinates;
+
+        if (textBlock == TextBlock.TITLE) {
+            System.out.println(lineCounter);
+            if (lineCounter >= TextBlock.TITLE.coordinates.length) {
+                throw new IOException(prepareTextForException(textBlock, str));
+            }
+            y = TextBlock.TITLE.coordinates[lineCounter];
+        }
+
+        if (textBlock == TextBlock.NOTIFICATION) {
+            if (lineCounter >= TextBlock.NOTIFICATION.coordinates.length) {
+                throw new IOException(prepareTextForException(textBlock, str));
+            }
+            y = TextBlock.NOTIFICATION.coordinates[lineCounter];
+        }
+
+        if (textBlock == TextBlock.CONTENT) {
+            if (lineCounter >= TextBlock.CONTENT.coordinates.length) {
+                throw new IOException(prepareTextForException(textBlock, str));
+            }
+            y = TextBlock.CONTENT.coordinates[lineCounter];
+        }
+
+        stringWithCoordinates = prepareToInsertInMap(x, y, str);
+        addToDisplay(stringWithCoordinates);
+        lineCounter++;
+    }
+
+    private static String prepareTextForException(TextBlock textBlock, String str) {
+        return  "\nMaximum positions in the: " + textBlock.toString() + " block.\n " +
+                "There was an attempt for a text: \"" + str + "\"";
     }
 
     public void show() {
@@ -25,63 +66,34 @@ public class User_Display extends Display_Config {
         resetLineCounter();
     }
 
-    public void add(String str, TextBlock text) {
-        int x = getX_center_for(str);
-        int y = 0;
-
-        Map<String, String> stringWithCoordinates;
-
-        if (text != TextBlock.TITLE) {
-
-            if (text == TextBlock.NOTIFICATION) {
-                y = (headline_Y_Position + 1) + location_y_linePrint_notTitle;
-            }
-            if (text == TextBlock.CONTEXT) {
-                y = ((Math.round((float) SIZE_DISPLAY_Y / 2) - 5) + location_y_linePrint_notTitle);
-            }
-            if (text == TextBlock.SERVER_IP) {
-                x = location_X_Y_serverIp[X_POINT];
-                y = location_X_Y_serverIp[Y_POINT];
-            }
-            if (text == TextBlock.SERVER_PORT) {
-                x = location_X_Y_serverPort[X_POINT];
-                y = location_X_Y_serverPort[Y_POINT];
-            }
-            stringWithCoordinates = prepareToInsertInMap(x, y, str);
-            addToDisplay(stringWithCoordinates);
-            location_y_linePrint_notTitle++;
-
-        } else {
-            y = headline_Y_Position;
-            add(x, y, str);
-            resetLineCounter();
-        }
-
-    }
-
     /**
      * this method simply prints on top of the line above the current one
+     *
      * @param str String
      */
-    public void replace(String str) {
-        location_y_linePrint_notTitle--;
+    public void replace(String str) throws IOException {
+        lineCounter--;
         add(str, TextBlock.NOTIFICATION);
     }
 
+    /**
+     * <h3>reset display -> deleting all text block</h3>
+     * <pre>
+     *     1. TextBlock.TITLE
+     *     2. TextBlock.NOTIFICATION
+     *     3. TextBlock.CONTENT
+     * </pre>
+     */
     public void reset() {
         updateDisplay();
-    }
-
-    public void set_userName(String name) {
-        userName = name;
-    }
-
-    public String get_userName() {
-        return userName;
     }
 
     private void add(int x, int y, String str) {
         Map<String, String> StringWithCoordinates = prepareToInsertInMap(x, y, str);
         addToDisplay(StringWithCoordinates);
+    }
+
+    protected void resetLineCounter() {
+        lineCounter = 0;
     }
 }

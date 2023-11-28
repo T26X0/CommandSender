@@ -1,7 +1,10 @@
 package com.Line_Interface;
 
 
+import com.Client.User_Fields;
+
 import java.util.*;
+
 
 public class Display_Config extends Display_Const {
 
@@ -10,7 +13,7 @@ public class Display_Config extends Display_Const {
     protected final int[][] location_down_lineFrame = new int[SIZE_DISPLAY_X][2];
     protected final int[][] location_left_lineFrame = new int[SIZE_DISPLAY_Y - 1][2];
     protected final int[][] location_right_lineFrame = new int[SIZE_DISPLAY_Y - 1][2];
-    protected final int[][] location_line_nameBox = new int[headline_Y_Position + 1][2];
+    protected final int[][] location_line_nameBox = new int[location_Y_headline + 1][2];
     protected Map<String, String> working_display;
 
     public Display_Config() {
@@ -23,24 +26,42 @@ public class Display_Config extends Display_Const {
         init_Vertical_line();
 
         init_NameBox();
-        init_userName();
 
         set_in_display();
+        add_templateHeadLine();
+
         fillEmptiness();
         setTitle();
+    }
+
+    private void add_templateHeadLine() {
+        Map<String, String> mapWithCoordinates;
+        int x;
+        int y;
+
+        x = TextBlock.USER_NAME.coordinates[X_POINT];
+        y = TextBlock.USER_NAME.coordinates[Y_POINT];
+        mapWithCoordinates = prepareToInsertInMap(x, y,
+                User_Fields.get_UserName());
+        showMap(mapWithCoordinates);
+        addToDisplay(mapWithCoordinates);
+
+        x = TextBlock.SERVER_IP.coordinates[X_POINT];
+        y = TextBlock.SERVER_IP.coordinates[Y_POINT];
+        mapWithCoordinates = prepareToInsertInMap(x, y,
+                Display_Const.title_X_Y_block_serverIp + User_Fields.get_ServerIp());
+        addToDisplay(mapWithCoordinates);
+
+        x = TextBlock.SERVER_PORT.coordinates[X_POINT];
+        y = TextBlock.SERVER_PORT.coordinates[Y_POINT];
+        mapWithCoordinates = prepareToInsertInMap(x, y,
+                Display_Const.title_X_Y_block_serverPort + User_Fields.get_ServerPort());
+        addToDisplay(mapWithCoordinates);
     }
 
     private void setTitle() {
         Map<String, String> title_map = prepareToInsertInMap(0, SIZE_DISPLAY_Y - 1, APP_TITLE);
         addToDisplay(title_map);
-    }
-
-    private void init_userName() {
-        Map<String, String> userName_map = prepareToInsertInMap(
-                SIZE_DISPLAY_X - SIZE_NAME_BOX + 1,
-                headline_Y_Position,
-                userName);
-        addToDisplay(userName_map);
     }
 
     private void init_Horizontal_line() {
@@ -56,7 +77,7 @@ public class Display_Config extends Display_Const {
                     case Y_POINT:
                         location_top_line_Frame[queue][Y_POINT] = 0;
                         location_down_lineFrame[queue][Y_POINT] = SIZE_DISPLAY_Y - 1;
-                        location_medium_lineFrame[queue][Y_POINT] = headline_Y_Position + 1;
+                        location_medium_lineFrame[queue][Y_POINT] = location_Y_headline + 1;
                         break;
                 }
             }
@@ -82,7 +103,7 @@ public class Display_Config extends Display_Const {
     }
 
     private void init_NameBox() {
-        for (int queue = 0; queue < headline_Y_Position + 1; queue++) {
+        for (int queue = 0; queue < location_Y_headline + 1; queue++) {
             for (int cursor = 0; cursor < 2; cursor++) {
                 switch (cursor) {
                     case X_POINT:

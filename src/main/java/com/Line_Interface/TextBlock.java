@@ -1,30 +1,30 @@
 package com.Line_Interface;
 
+
 public enum TextBlock {
 
     /**
      * Provides ONE LINE for TITLE block
      */
-    TITLE(),
+    TITLE(Display_Const.location_X_textBlock_TITLE),
 
     /**
      * Provides TWO LINES for NOTIFICATION block
      */
-    NOTIFICATION(),
+    NOTIFICATION(Display_Const.location_X_textBlock_NOTIFICATION),
 
     /**
      * Provides FOUR LINES for CONTEXT block
      */
-    CONTEXT(),
+    CONTENT(Display_Const.location_X_textBlock_CONTENT),
 
-    SERVER_IP,
-    SERVER_PORT;
+    SERVER_IP(Display_Const.location_X_Y_block_serverIp),
+    SERVER_PORT(Display_Const.location_X_Y_block_serverPort),
+    USER_NAME(Display_Const.location_X_Y_userName);
 
-    final Display_Const constants;
-    final int[] lines;
+    final int[] coordinates;
 
-    TextBlock() {
-        constants = new Display_Const();
-        this.lines = constants.getLines(this);
+    TextBlock(int[] lines) {
+        this.coordinates = lines;
     }
 }

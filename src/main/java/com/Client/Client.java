@@ -12,50 +12,38 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client extends User_Const implements Connectable {
-    private String userIp;
-    private String userName;
+public class Client extends User_Fields implements Connectable {
     private UserData messageConstructor;
     private PrintWriter output;
     private final Scanner scanner = new Scanner(System.in);
-    private String serverIp = "_";
-    private int serverPort = 0;
     User_Display display;
 
-    public Client() {
+    public Client() throws IOException {
 
         display = new User_Display();
 
-        userIp = IpLocal.get();
+        User_Fields.set_UserIp(IpLocal.get());
 
         display.reset();
-        display.add("server ip: " + serverIp, TextBlock.SERVER_IP);
-        display.add("server port: " + "_", TextBlock.SERVER_PORT);
-        display.add("PLEASE ENTER YOUR NAME", TextBlock.CONTEXT);
+        display.add("PLEASE ENTER YOUR NAME:", TextBlock.TITLE);
         display.show();
 
         registerClient();
 
         display.reset();
-        display.add("server ip: " + serverIp, TextBlock.SERVER_IP);
-        display.add("server port: " + "_", TextBlock.SERVER_PORT);
-        display.add("ENTER SERVER IP", TextBlock.CONTEXT);
+        display.add("ENTER SERVER IP:", TextBlock.TITLE);
         display.show();
 
         init_Server_Ip();
 
         display.reset();
-        display.add("server ip: " + serverIp, TextBlock.SERVER_IP);
-        display.add("server port: " + "_", TextBlock.SERVER_PORT);
-        display.add("ENTER SERVER IP", TextBlock.CONTEXT);
+        display.add("ENTER SERVER PORT:", TextBlock.TITLE);
         display.show();
 
         init_Server_Port();
 
         display.reset();
-        display.add("server ip: " + serverIp, TextBlock.SERVER_IP);
-        display.add("server port: " + serverPort, TextBlock.SERVER_PORT);
-        display.add("...connection to the server...", TextBlock.CONTEXT);
+        display.add("...connection to the server...", TextBlock.CONTENT);
         display.show();
 
         try {
@@ -69,70 +57,66 @@ public class Client extends User_Const implements Connectable {
     /**
      * Getting and setting ip and port to connect to the server
      */
-    public void init_Server_Ip() {
+    public void init_Server_Ip() throws IOException {
 
 
         String ip = scanner.nextLine();
         if (Validator.isValid(ip)) {
-            serverIp = ip;
+            User_Fields.set_ServerIp(ip);
         } else {
             // TODO logging
 
-            display.add("YOU ENTERED AN INCORRECT IP", TextBlock.CONTEXT);
-            display.add("TRY AGAIN", TextBlock.CONTEXT);
+            display.add("YOU ENTERED AN INCORRECT IP", TextBlock.CONTENT);
+            display.add("TRY AGAIN", TextBlock.CONTENT);
             display.show();
             init_Server_Ip();
         }
     }
 
-    public void init_Server_Port() {
+    public void init_Server_Port() throws IOException {
 
         try {
             int port = Integer.parseInt(scanner.nextLine());
 
             if (Validator.isValid(port)) {
-                serverPort = port;
+                User_Fields.set_ServerPort(port);
             } else {
                 // TODO logging
 
-                display.add("YOU ENTERED AN INCORRECT PORT", TextBlock.CONTEXT);
-                display.add("TRY AGAIN", TextBlock.CONTEXT);
+                display.add("YOU ENTERED AN INCORRECT PORT", TextBlock.CONTENT);
+                display.add("TRY AGAIN", TextBlock.CONTENT);
                 display.show();
                 init_Server_Port();
             }
         } catch (NumberFormatException e) {
             // TODO logging
 
-            display.add("YOU ENTERED AN INCORRECT PORT", TextBlock.CONTEXT);
-            display.add("TRY AGAIN", TextBlock.CONTEXT);
+            display.add("YOU ENTERED AN INCORRECT PORT", TextBlock.CONTENT);
+            display.add("TRY AGAIN", TextBlock.CONTENT);
             display.show();
             init_Server_Port();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public String get_UserIp() {
-        return userIp;
-    }
 
-    public String get_UserName() {
-        return userName;
-    }
 
-    private void registerClient() {
+    private void registerClient() throws IOException {
 
         String name = scanner.nextLine();
 
         if (!set_Name(name)) {
 
-            display.add("Your indicate not valid name:", TextBlock.CONTEXT);
-            display.add("* Name can't be empty", TextBlock.CONTEXT);
-            display.add("* Name must contain no more than 14 characters", TextBlock.CONTEXT);
-            display.add("* Name must contain no more than 1 word", TextBlock.CONTEXT);
-            display.add("* you can use \"_\" or \"-\"", TextBlock.CONTEXT);
+            display.add("Your indicate not valid name:", TextBlock.CONTENT);
+            display.add("* Name can't be empty", TextBlock.CONTENT);
+            display.add("* Name must contain no more than 14 characters", TextBlock.CONTENT);
+            display.add("* Name must contain no more than 1 word", TextBlock.CONTENT);
+            display.add("* you can use \"_\" or \"-\"", TextBlock.CONTENT);
             display.show();
             registerClient();
         }
-        display.set_userName(name);
+        User_Fields.set_UserName(name);
         messageConstructor = new UserData(get_UserIp(), get_UserName());
 
 
@@ -159,7 +143,7 @@ public class Client extends User_Const implements Connectable {
         if (name.isEmpty() || name.length() > MAX_NAME_LENGTH || get_WordCount(name) > 1) {
             return false;
         }
-        userName = name;
+        User_Fields.set_UserName(name);
         return true;
 
     }
@@ -185,7 +169,7 @@ public class Client extends User_Const implements Connectable {
     public void startConnect() {
 
         try {
-            connectingToServer(serverIp, serverPort);
+            connectingToServer(display.get_ServerIp(), display.get_ServerPort());
             System.out.println("Success connection");
             keyboardTapping();
         } catch (IOException e) {
@@ -194,14 +178,18 @@ public class Client extends User_Const implements Connectable {
             System.out.println("   Try connecting later");
             System.out.println("   or try connected to another server");
 
-            init_Server_Ip();
+            try {
+                init_Server_Ip();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 }
 
 
 class Begin {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Client client = new Client();
         client.startConnect();
     }
