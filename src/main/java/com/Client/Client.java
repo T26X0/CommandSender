@@ -1,7 +1,7 @@
 package com.Client;
 
 
-import com.Line_Interface.Text;
+import com.Line_Interface.Block;
 import com.Line_Interface.User_Display;
 import com.Utils.Connectable;
 import com.Utils.UserData;
@@ -29,33 +29,33 @@ public class Client extends User_Const implements Connectable {
         userIp = IpLocal.get();
 
         display.reset();
-        display.add("server ip: " + serverIp, Text.SERVER_IP);
-        display.add("server port: " + "_", Text.SERVE_PORT);
-        display.add("PLEASE ENTER YOUR NAME", Text.ERROR);
+        display.add("server ip: " + serverIp, Block.SERVER_IP);
+        display.add("server port: " + "_", Block.SERVER_PORT);
+        display.add("PLEASE ENTER YOUR NAME", Block.CONTEXT);
         display.show();
 
         registerClient();
 
         display.reset();
-        display.add("server ip: " + serverIp, Text.SERVER_IP);
-        display.add("server port: " + "_", Text.SERVE_PORT);
-        display.add("ENTER SERVER IP", Text.ERROR);
+        display.add("server ip: " + serverIp, Block.SERVER_IP);
+        display.add("server port: " + "_", Block.SERVER_PORT);
+        display.add("ENTER SERVER IP", Block.CONTEXT);
         display.show();
 
         init_Server_Ip();
 
         display.reset();
-        display.add("server ip: " + serverIp, Text.SERVER_IP);
-        display.add("server port: " + "_", Text.SERVE_PORT);
-        display.add("ENTER SERVER IP", Text.ERROR);
+        display.add("server ip: " + serverIp, Block.SERVER_IP);
+        display.add("server port: " + "_", Block.SERVER_PORT);
+        display.add("ENTER SERVER IP", Block.CONTEXT);
         display.show();
 
         init_Server_Port();
 
         display.reset();
-        display.add("server ip: " + serverIp, Text.SERVER_IP);
-        display.add("server port: " + serverPort, Text.SERVE_PORT);
-        display.add("...connection to the server...", Text.ERROR);
+        display.add("server ip: " + serverIp, Block.SERVER_IP);
+        display.add("server port: " + serverPort, Block.SERVER_PORT);
+        display.add("...connection to the server...", Block.CONTEXT);
         display.show();
 
         try {
@@ -78,8 +78,8 @@ public class Client extends User_Const implements Connectable {
         } else {
             // TODO logging
 
-            display.add("YOU ENTERED AN INCORRECT IP", Text.ERROR);
-            display.add("TRY AGAIN", Text.ERROR);
+            display.add("YOU ENTERED AN INCORRECT IP", Block.CONTEXT);
+            display.add("TRY AGAIN", Block.CONTEXT);
             display.show();
             init_Server_Ip();
         }
@@ -95,16 +95,16 @@ public class Client extends User_Const implements Connectable {
             } else {
                 // TODO logging
 
-                display.add("YOU ENTERED AN INCORRECT PORT", Text.ERROR);
-                display.add("TRY AGAIN", Text.ERROR);
+                display.add("YOU ENTERED AN INCORRECT PORT", Block.CONTEXT);
+                display.add("TRY AGAIN", Block.CONTEXT);
                 display.show();
                 init_Server_Port();
             }
         } catch (NumberFormatException e) {
             // TODO logging
 
-            display.add("YOU ENTERED AN INCORRECT PORT", Text.ERROR);
-            display.add("TRY AGAIN", Text.ERROR);
+            display.add("YOU ENTERED AN INCORRECT PORT", Block.CONTEXT);
+            display.add("TRY AGAIN", Block.CONTEXT);
             display.show();
             init_Server_Port();
         }
@@ -124,11 +124,11 @@ public class Client extends User_Const implements Connectable {
 
         if (!set_Name(name)) {
 
-            display.add("Your indicate not valid name:", Text.ERROR);
-            display.add("* Name can't be empty", Text.ERROR);
-            display.add("* Name must contain no more than 14 characters", Text.ERROR);
-            display.add("* Name must contain no more than 1 word", Text.ERROR);
-            display.add("* you can use \"_\" or \"-\"", Text.ERROR);
+            display.add("Your indicate not valid name:", Block.CONTEXT);
+            display.add("* Name can't be empty", Block.CONTEXT);
+            display.add("* Name must contain no more than 14 characters", Block.CONTEXT);
+            display.add("* Name must contain no more than 1 word", Block.CONTEXT);
+            display.add("* you can use \"_\" or \"-\"", Block.CONTEXT);
             display.show();
             registerClient();
         }

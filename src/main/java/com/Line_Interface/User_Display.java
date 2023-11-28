@@ -25,27 +25,27 @@ public class User_Display extends Display_Config {
         resetLineCounter();
     }
 
-    public void add(String str, Text text) {
+    public void add(String str, Block text) {
         int x = getX_center_for(str);
         int y = 0;
 
         Map<String, String> stringWithCoordinates;
 
-        if (text != Text.TITLE) {
+        if (text != Block.TITLE) {
 
-            if (text == Text.CONTENT) {
+            if (text == Block.NOTIFICATION) {
                 y = (headline_Y_Position + 1) + location_y_linePrint_notTitle;
             }
-            if (text == Text.ERROR) {
+            if (text == Block.CONTEXT) {
                 y = ((Math.round((float) SIZE_DISPLAY_Y / 2) - 5) + location_y_linePrint_notTitle);
             }
-            if (text == Text.SERVER_IP) {
-                x = location_serverIp[X_POINT];
-                y = location_serverIp[Y_POINT];
+            if (text == Block.SERVER_IP) {
+                x = location_X_Y_serverIp[X_POINT];
+                y = location_X_Y_serverIp[Y_POINT];
             }
-            if (text == Text.SERVE_PORT) {
-                x = location_serverPort[X_POINT];
-                y = location_serverPort[Y_POINT];
+            if (text == Block.SERVER_PORT) {
+                x = location_X_Y_serverPort[X_POINT];
+                y = location_X_Y_serverPort[Y_POINT];
             }
             stringWithCoordinates = prepareToInsertInMap(x, y, str);
             addToDisplay(stringWithCoordinates);
@@ -65,7 +65,7 @@ public class User_Display extends Display_Config {
      */
     public void replace(String str) {
         location_y_linePrint_notTitle--;
-        add(str, Text.CONTENT);
+        add(str, Block.NOTIFICATION);
     }
 
     public void reset() {
