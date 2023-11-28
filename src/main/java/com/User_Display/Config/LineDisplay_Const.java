@@ -1,15 +1,17 @@
-package com.Line_Interface;
+package com.User_Display.Config;
 
-import com.Client.User_Fields;
+import com.Line_Sender.Config.User_Fields;
 
 import java.util.HashMap;
 import java.util.Map;
 
-class Display_Const extends User_Fields {
+class LineDisplay_Const extends User_Fields {
     protected static final int X_POINT = 0;
     protected static final int Y_POINT = 1;
     protected static String APP_TITLE;
     protected static int[] APP_TITLE_location;
+    protected static String logo_image;
+    protected static String logo_text;
     protected static String symbol_frame_x;
     protected static String symbol_frame_y;
     protected static String symbol_for_lineFilling;
@@ -64,6 +66,7 @@ class Display_Const extends User_Fields {
     protected static Map<String, int[]> allCommands = new HashMap<>();
 
     static {
+        set_logo();
         set_appValues();
         set_displayValues();
         set_commandLines();
@@ -97,7 +100,7 @@ class Display_Const extends User_Fields {
      */
     private static void set_displayValues() {
         location_Y_headline = 1;
-        SIZE_NAME_BOX = 14;
+        SIZE_NAME_BOX = 15;
 
         textBlock_TITLE_location_X[0] = 4;
 
@@ -162,6 +165,32 @@ class Display_Const extends User_Fields {
         allCommands.put(command_title_cmd8, command_position_X_Y_cmd8);
         allCommands.put(command_title_cmd9, command_position_X_Y_cmd9);
 
+    }
+
+    private static void set_logo() {
+        logo_image =
+                "⠀     ⠀        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣶⣶⣿⣿⣿⣶⣶⣤⣄⡀⠀⠀⠀⠀⠀\n" +
+                "⠀  ⠀⠀         ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣯⢿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣦⠀⠀⠀⠀\n" +
+                "⠀      ⠀     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣯⣽⣶⣶⣾⣕⣝⣧⣣⢫⡋⡿⠿⣇⠀⠀⠀\n" +
+                "⠀         ⠀  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⢖⢬⣍⠻⣿⣿⡜⢧⠑⣴⣿⣿⣦⠀⠀\n" +
+                "  ⠀      ⠀   ⠐⠻⣿⣿⣟⣛⡻⠶⣦⣻⣿⣿⣿⣿⡗⢿⣿⣿⢙⠛⣃⠬⢄⠉⠉⠀⠀⠀⠀\n" +
+                "⠀         ⠀⠀  ⠀⠈⠻⣿⣿⠁⠀⣶⣿⣿⣿⣿⣿⣏⣚⣏⣴⢟⣟⠁⣰⠀⡇⣄⣽⣿⡄⠀\n" +
+                "⠀⠀         ⠀⠀⠀  ⠀⠈⢿⣶⡾⠿⢻⣿⣿⡛⠋⠁⣠⢏⣵⣿⣿⣿⣿⣷⣿⡘⡜⡿⠃⠀\n" +
+                "         ⠀⠀⠀⠀⠀⠀⠀  ⠀⠙⠿⣿⡿⣿⢻⡧⢀⡞⣡⣿⣿⣿⣿⣿⣿⣿⡿⣷⢁⠀⠀⠀\n" +
+                "       ⠀  ⠀⠀⠀⠀⠀⠀⠀⠀  ⠀⠀⣾⡿⣼⣳⢿⣾⣿⣿⣿⣶⣶⣶⣶⡶⠶⣶⣍ \n" +
+                "⠀       ⠀⠀  ⠀⠀⠀⠀⠀⠀⠀⠀  ⣿⢷⣿⣿⣿⡿⢋⠀⢶⠂⠶⠀⠄⠄⡤⣤  \n" +
+                " ⠀        ⠀⠀⠀⠀⠀  ⠀⠀⠀⠀⢸⣿⠈⣿⣿⠟⠀⣰⡇⢀⡀⠀⠠⠀⠀⠀⠉⣤  \n" +
+                "    ⠀  ⠀       ⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⡇⠼⠷⢿⣇⢸⣷⡀⣾⡆⣾⣷⠠⡿⠆ \n" +
+                "       ⠀⠀ ⠀   ⠀⠀⠀⠀⠀⠀⠀⠸⣿⣽⣿⣷⣿⡿⣿⣷⣶⣶⣶⣶⣶⣶⣶⣶⣶⣷⣦ \n" +
+                "       ⠀⠀⠀⠀  ⠀  ⠀⠀⠀⠀⠀⠀⠙⠛⠛⣿⣿⣿⣶⣤⣤⣈⡉⠉⠉⠉⠉⠉⠉⠉⠁⠀\n" +
+                "       ⠀⠀⠀⠀⠀⠀  ⠀⠀  ⠀⠀⠀⠀⠀⠀⠈⠻⣯⣭⣯⣭⣤⣶⣶⣶⣶⣦⣤⡈⠁⠀⠀\n" +
+                "       ⠀⠀⠀⠀⠀⠀⠀⠀  ⠀⠀⠀  ⠀⠀⠀⠀⠀⠈⠛⠛⠿⠛⠛⠁⠈⠉⠙⠛⠁⠀⠀";
+        logo_text =
+                "         _      _                  ____                    _             \n" +
+                "        | |    (_) _ __    ___    / ___|   ___  _ __    __| |  ___  _ __ \n" +
+                "        | |    | || '_ \\  / _ \\   \\___ \\  / _ \\| '_ \\  / _` | / _ \\| '__|\n" +
+                "        | |___ | || | | ||  __/    ___) ||  __/| | | || (_| ||  __/| |   \n" +
+                "        |_____||_||_| |_| \\___|   |____/  \\___||_| |_| \\__,_| \\___||_|   ";
     }
 
     protected static int get_X_for_centering(String str) {

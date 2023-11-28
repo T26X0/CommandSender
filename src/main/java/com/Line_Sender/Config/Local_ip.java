@@ -1,13 +1,16 @@
-package com.Client;
+package com.Line_Sender.Config;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class IpLocal {
+public class Local_ip {
     static String userIp;
 
+    /**
+     * @return userIp - String
+     */
     public static String get() {
         try {
             InetAddress localHost = InetAddress.getLocalHost();

@@ -1,4 +1,4 @@
-package com.Line_Interface;
+package com.User_Display.Config;
 
 
 public enum TextBlock {
@@ -6,19 +6,19 @@ public enum TextBlock {
     /**
      * Provides ONE LINE for TITLE block
      */
-    TITLE(Display_Const.textBlock_TITLE_location_X),
+    TITLE(LineDisplay_Const.textBlock_TITLE_location_X),
 
     /**
      * Provides TWO LINES for NOTIFICATION block
      */
-    NOTIFICATION(Display_Const.textBlock_NOTIFICATION_location_X),
+    NOTIFICATION(LineDisplay_Const.textBlock_NOTIFICATION_location_X),
 
     /**
      * Provides FOUR LINES for CONTEXT block
      */
-    CONTENT(Display_Const.textBlock_CONTENT_location_X);
+    CONTENT(LineDisplay_Const.textBlock_CONTENT_location_X);
 
-    final int[] coordinates;
+    public final int[] coordinates;
 
     TextBlock(int[] lines) {
         this.coordinates = lines;

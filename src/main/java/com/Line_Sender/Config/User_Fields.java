@@ -1,9 +1,9 @@
-package com.Client;
+package com.Line_Sender.Config;
 
-import com.Line_Interface.Display_Config;
+import com.User_Display.Config.LineDisplay;
 
 public class User_Fields {
-    protected static final int MAX_NAME_LENGTH = 12;
+    protected static final int MAX_NAME_LENGTH = 13;
     private static String userName = "...";
     private static String userIp = "...";
     private static String serverIp = "...";
@@ -30,7 +30,7 @@ public class User_Fields {
 
     private static void update_commandSwitcher() {
         boolean result = gotAllData();
-        Display_Config.set_commandVisibility(result);
+        LineDisplay.set_commandVisibility(result);
     }
 
     private static boolean gotAllData() {

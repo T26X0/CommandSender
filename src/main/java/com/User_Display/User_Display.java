@@ -1,4 +1,7 @@
-package com.Line_Interface;
+package com.User_Display;
+
+import com.User_Display.Config.LineDisplay;
+import com.User_Display.Config.TextBlock;
 
 import java.io.IOException;
 import java.util.Map;
@@ -9,8 +12,7 @@ import java.util.Map;
  * <pre>x = 30</pre>
  * <pre>y = 30</pre>
  */
-public class User_Display extends Display_Config {
-    protected static int lineCounter = 0;
+public class User_Display extends LineDisplay {
 
     public User_Display() {
         super();
@@ -48,17 +50,6 @@ public class User_Display extends Display_Config {
         lineCounter++;
     }
 
-    private static String prepareTextForException(TextBlock textBlock, String str) {
-        return "\nMaximum positions in the: " + textBlock.toString() + " block.\n " +
-                "There was an attempt for a text: \"" + str + "\"";
-    }
-
-    public void show() {
-        purify_display();
-        show_display();
-        resetLineCounter();
-    }
-
     /**
      * <h3>reset display -> deleting all text block</h3>
      * <pre>
@@ -71,7 +62,14 @@ public class User_Display extends Display_Config {
         updateDisplay();
     }
 
-    protected void resetLineCounter() {
-        lineCounter = 0;
+    public void show() {
+        purify_display();
+        show_display();
+        resetLineCounter();
+    }
+
+    private static String prepareTextForException(TextBlock textBlock, String str) {
+        return "\nMaximum positions in the: " + textBlock.toString() + " block.\n " +
+                "There was an attempt for a text: \"" + str + "\"";
     }
 }
