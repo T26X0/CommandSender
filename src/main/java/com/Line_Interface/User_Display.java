@@ -49,18 +49,13 @@ public class User_Display extends Display_Config {
     }
 
     private static String prepareTextForException(TextBlock textBlock, String str) {
-        return  "\nMaximum positions in the: " + textBlock.toString() + " block.\n " +
+        return "\nMaximum positions in the: " + textBlock.toString() + " block.\n " +
                 "There was an attempt for a text: \"" + str + "\"";
     }
 
     public void show() {
-        for (int y = 0; y < SIZE_DISPLAY_Y; y++) {
-            for (int x = 0; x < SIZE_DISPLAY_X; x++) {
-                String coordinates = getCoordinates(x, y);
-                System.out.print(working_display.get(coordinates));
-            }
-            System.out.println();
-        }
+        purify_display();
+        show_display();
         resetLineCounter();
     }
 

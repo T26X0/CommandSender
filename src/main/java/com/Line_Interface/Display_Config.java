@@ -3,6 +3,7 @@ package com.Line_Interface;
 
 import com.Client.User_Fields;
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -62,7 +63,6 @@ public class Display_Config extends Display_Const {
         y = block_userName_position_X_Y[Y_POINT];
         mapWithCoordinates = prepareToInsertInMap(x, y,
                 User_Fields.get_userName());
-        showMap(mapWithCoordinates);
         addToDisplay(mapWithCoordinates);
 
         x = block_serverIp_position_X_Y[X_POINT];
@@ -111,8 +111,8 @@ public class Display_Config extends Display_Const {
             }
         }
     }
-
     private void init_Vertical_line() {
+
         for (int queue = 0; queue < SIZE_DISPLAY_Y - 1; queue++) {
             for (int cursor = 0; cursor < 2; cursor++) {
 
@@ -247,6 +247,23 @@ public class Display_Config extends Display_Const {
         for (String key : keys) {
             String value = map.get(key);
             System.out.println(key + ", " + value);
+        }
+    }
+    protected void purify_display() {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (InterruptedException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    protected void show_display() {
+
+        for (int y = 0; y < SIZE_DISPLAY_Y; y++) {
+            for (int x = 0; x < SIZE_DISPLAY_X; x++) {
+                String coordinates = getCoordinates(x, y);
+                System.out.print(working_display.get(coordinates));
+            }
+            System.out.println();
         }
     }
 }
