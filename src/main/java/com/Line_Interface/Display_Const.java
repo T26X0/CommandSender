@@ -42,7 +42,7 @@ class Display_Const {
         location_y_linePrint_notTitle = 4;
     }
 
-    protected int[] getLines(Block block) {
+    protected int[] getLines(TextBlock block) {
         switch (block) {
             case TITLE -> {
                 return location_X_line_TITLE;

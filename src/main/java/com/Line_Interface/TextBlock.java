@@ -1,6 +1,6 @@
 package com.Line_Interface;
 
-public enum Block {
+public enum TextBlock {
 
     /**
      * Provides ONE LINE for TITLE block
@@ -23,7 +23,7 @@ public enum Block {
     final Display_Const constants;
     final int[] lines;
 
-    Block() {
+    TextBlock() {
         constants = new Display_Const();
         this.lines = constants.getLines(this);
     }

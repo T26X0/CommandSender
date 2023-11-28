@@ -25,25 +25,25 @@ public class User_Display extends Display_Config {
         resetLineCounter();
     }
 
-    public void add(String str, Block text) {
+    public void add(String str, TextBlock text) {
         int x = getX_center_for(str);
         int y = 0;
 
         Map<String, String> stringWithCoordinates;
 
-        if (text != Block.TITLE) {
+        if (text != TextBlock.TITLE) {
 
-            if (text == Block.NOTIFICATION) {
+            if (text == TextBlock.NOTIFICATION) {
                 y = (headline_Y_Position + 1) + location_y_linePrint_notTitle;
             }
-            if (text == Block.CONTEXT) {
+            if (text == TextBlock.CONTEXT) {
                 y = ((Math.round((float) SIZE_DISPLAY_Y / 2) - 5) + location_y_linePrint_notTitle);
             }
-            if (text == Block.SERVER_IP) {
+            if (text == TextBlock.SERVER_IP) {
                 x = location_X_Y_serverIp[X_POINT];
                 y = location_X_Y_serverIp[Y_POINT];
             }
-            if (text == Block.SERVER_PORT) {
+            if (text == TextBlock.SERVER_PORT) {
                 x = location_X_Y_serverPort[X_POINT];
                 y = location_X_Y_serverPort[Y_POINT];
             }
@@ -65,7 +65,7 @@ public class User_Display extends Display_Config {
      */
     public void replace(String str) {
         location_y_linePrint_notTitle--;
-        add(str, Block.NOTIFICATION);
+        add(str, TextBlock.NOTIFICATION);
     }
 
     public void reset() {
