@@ -1,13 +1,13 @@
-package com.Line_Sender;
+package Client.Line_Sender;
 
 
-import com.Line_Sender.Config.Local_ip;
-import com.Line_Sender.Config.User_Fields;
-import com.User_Display.Config.TextBlock;
-import com.User_Display.User_Display;
-import com.Utils.Connectable;
-import com.Utils.UserData;
-import com.Utils.Validator;
+import Client.Line_Sender.Config.Local_ip;
+import Client.Line_Sender.Config.User_Fields;
+import Client.User_Display.Config.TextBlock;
+import Client.User_Display.User_Display;
+import Utils.Connectable;
+import Utils.UserData;
+import Utils.Validator;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,7 +19,6 @@ public class Line_Sender extends User_Fields implements Connectable {
     private PrintWriter output;
     private final Scanner scanner = new Scanner(System.in);
     User_Display display;
-
     public Line_Sender() throws IOException {
 
         display = new User_Display();

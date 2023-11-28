@@ -1,7 +1,7 @@
-package com.User_Display;
+package Client.User_Display;
 
-import com.User_Display.Config.LineDisplay;
-import com.User_Display.Config.TextBlock;
+import Client.User_Display.Config.LineDisplay;
+import Client.User_Display.Config.TextBlock;
 
 import java.io.IOException;
 import java.util.Map;

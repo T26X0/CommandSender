@@ -1,6 +1,6 @@
-package com.Line_Sender.Config;
+package Client.Line_Sender.Config;
 
-import com.User_Display.Config.LineDisplay;
+import Client.User_Display.Config.LineDisplay;
 
 public class User_Fields {
     protected static final int MAX_NAME_LENGTH = 13;

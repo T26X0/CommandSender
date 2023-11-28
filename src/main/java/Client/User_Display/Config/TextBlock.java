@@ -1,4 +1,4 @@
-package com.User_Display.Config;
+package Client.User_Display.Config;
 
 
 public enum TextBlock {

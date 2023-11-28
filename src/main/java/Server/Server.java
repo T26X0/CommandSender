@@ -1,7 +1,7 @@
 package Server;
 
-import com.Utils.Connectable;
-import com.Utils.UserData;
+import Utils.Connectable;
+import Utils.UserData;
 
 import java.io.IOException;
 import java.net.ServerSocket;

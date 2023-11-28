@@ -1,4 +1,4 @@
-package com.Utils;
+package Utils;
 
 import org.json.JSONObject;
 
