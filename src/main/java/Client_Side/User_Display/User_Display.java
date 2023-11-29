@@ -1,7 +1,7 @@
-package com.User_Display;
+package Client_Side.User_Display;
 
-import com.User_Display.Config.LineDisplay;
-import com.User_Display.Config.TextBlock;
+import Client_Side.User_Display.Config.LineDisplay;
+import Client_Side.User_Display.Config.TextBlock;
 
 import java.io.IOException;
 import java.util.Map;
@@ -18,30 +18,24 @@ public class User_Display extends LineDisplay {
         super();
     }
 
-    public void add(String str, TextBlock textBlock) throws IOException {
+    public void add(String str, TextBlock textBlock) {
         int x = get_X_for_centering(str);
         int y = 0;
 
         Map<String, String> stringWithCoordinates;
 
         if (textBlock == TextBlock.TITLE) {
-            if (lineCounter >= TextBlock.TITLE.coordinates.length) {
-                throw new IOException(prepareTextForException(textBlock, str));
-            }
+
             y = TextBlock.TITLE.coordinates[lineCounter];
         }
 
         if (textBlock == TextBlock.NOTIFICATION) {
-            if (lineCounter >= TextBlock.NOTIFICATION.coordinates.length) {
-                throw new IOException(prepareTextForException(textBlock, str));
-            }
+
             y = TextBlock.NOTIFICATION.coordinates[lineCounter];
         }
 
         if (textBlock == TextBlock.CONTENT) {
-            if (lineCounter >= TextBlock.CONTENT.coordinates.length) {
-                throw new IOException(prepareTextForException(textBlock, str));
-            }
+            System.out.println(str);
             y = TextBlock.CONTENT.coordinates[lineCounter];
         }
 

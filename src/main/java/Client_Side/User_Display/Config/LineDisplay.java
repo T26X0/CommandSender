@@ -1,7 +1,7 @@
-package com.User_Display.Config;
+package Client_Side.User_Display.Config;
 
 
-import com.Line_Sender.Config.User_Fields;
+import Client_Side.Client.Config.User_Fields;
 
 import java.io.IOException;
 import java.util.*;

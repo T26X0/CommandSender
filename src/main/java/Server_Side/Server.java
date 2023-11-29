@@ -1,7 +1,7 @@
-package Server;
+package Server_Side;
 
-import com.Utils.Connectable;
-import com.Utils.UserData;
+import Utils.Connectable;
+import Utils.UserData;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -21,7 +21,7 @@ public class Server implements Connectable {
     }
 
     @Override
-    public void startConnect() {
+    public boolean startConnect() {
         try {
             serverSocket = new ServerSocket(8081);
 
@@ -33,10 +33,11 @@ public class Server implements Connectable {
 
                 Thread thread = new Thread(new ClientHandler(socket));
                 thread.start();
+                return true;
             }
         } catch (IOException e) {
             // TODO logging
-            System.out.println("err");
+            return false;
         }
     }
 
@@ -166,6 +167,12 @@ class Begin {
      */
     public static void main(String[] args) {
         Server server = new Server();
-        server.startConnect();
+
+        boolean connection_status = false;
+        do {
+            connection_status = server.startConnect();
+        }
+        while (!connection_status);
+
     }
 }
