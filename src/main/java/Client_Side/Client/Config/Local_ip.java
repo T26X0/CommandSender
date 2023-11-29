@@ -1,4 +1,4 @@
-package Client.Line_Sender.Config;
+package Client_Side.Client.Config;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

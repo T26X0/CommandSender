@@ -1,6 +1,6 @@
-package Client.User_Display.Config;
+package Client_Side.User_Display.Config;
 
-import Client.Line_Sender.Config.User_Fields;
+import Client_Side.Client.Config.User_Fields;
 
 import java.util.HashMap;
 import java.util.Map;
