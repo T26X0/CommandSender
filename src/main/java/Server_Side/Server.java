@@ -1,6 +1,5 @@
 package Server_Side;
 
-import Utils.Connectable;
 import Utils.UserData;
 
 import java.io.IOException;
@@ -11,7 +10,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class Server implements Connectable {
+public class Server {
 
     ServerSocket serverSocket;
     public static Map<String, Socket> allUser = new HashMap<>();
@@ -20,8 +19,7 @@ public class Server implements Connectable {
         raiseDataBase();
     }
 
-    @Override
-    public boolean startConnect() {
+    public void startConnect() {
         try {
             serverSocket = new ServerSocket(8081);
 
@@ -33,11 +31,9 @@ public class Server implements Connectable {
 
                 Thread thread = new Thread(new ClientHandler(socket));
                 thread.start();
-                return true;
             }
         } catch (IOException e) {
             // TODO logging
-            return false;
         }
     }
 
@@ -167,12 +163,6 @@ class Begin {
      */
     public static void main(String[] args) {
         Server server = new Server();
-
-        boolean connection_status = false;
-        do {
-            connection_status = server.startConnect();
-        }
-        while (!connection_status);
-
+        server.startConnect();
     }
 }

@@ -3,11 +3,29 @@ package Client_Side.Client.Config;
 import Client_Side.User_Display.Config.LineDisplay;
 
 public class User_Fields {
+
+    private static String default_userName = "...";
+    private static String default_userIp = "...";
+    private static String default_serverIp = "...";
+    private static int default_serverPort = 0;
+
     protected static final int MAX_NAME_LENGTH = 13;
-    private static String userName = "...";
-    private static String userIp = "...";
-    private static String serverIp = "...";
-    private static int serverPort = 0;
+    private static String userName = default_userName;
+    private static String userIp = default_userIp;
+    private static String serverIp = default_serverIp;
+    private static int serverPort = default_serverPort;
+
+    public boolean has_userName() {
+        return userName.equals(default_userName);
+    }
+
+    public boolean has_serverIp() {
+        return serverIp.equals(default_serverIp);
+    }
+
+    public boolean has_serverPort() {
+        return serverPort == default_serverPort;
+    }
 
     public static void set_userIp(String ip) {
         userIp = ip;
