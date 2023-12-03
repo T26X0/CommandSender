@@ -1,11 +1,14 @@
-package Client_Side.User_Display.Config;
+package Client_Side.Display.Config;
 
 import Client_Side.Client.Config.User_Fields;
+import Utils.MessageForm;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-class LineDisplay_Const extends User_Fields {
+public class Display_Const extends User_Fields {
     protected static final int X_POINT = 0;
     protected static final int Y_POINT = 1;
     protected static String APP_TITLE;
@@ -21,9 +24,9 @@ class LineDisplay_Const extends User_Fields {
 
     protected static int location_Y_headline;
 
-    protected static int[] textBlock_TITLE_location_X = new int[1];
-    protected static int[] textBlock_NOTIFICATION_location_X = new int[2];
-    protected static int[] textBlock_CONTENT_location_X = new int[4];
+    protected static int[] textBlock_TITLE_location_Y = new int[1];
+    protected static int[] textBlock_NOTIFICATION_location_Y = new int[2];
+    protected static int[] textBlock_CONTENT_location_Y = new int[4];
 
     protected static int[] block_serverIp_position_X_Y;
     protected static String block_serverIp_title;
@@ -58,6 +61,10 @@ class LineDisplay_Const extends User_Fields {
     protected static int[] command_position_X_Y_cmd8;
     protected static int[] command_position_X_Y_cmd9;
 
+    protected static int messages_position_X;
+    public static int messageLines_size;
+
+
     /**
      * The command menu becomes visible only after registration!!!
      */
@@ -70,10 +77,6 @@ class LineDisplay_Const extends User_Fields {
         set_appValues();
         set_displayValues();
         set_commandLines();
-    }
-
-    public static void set_commandVisibility(boolean bool) {
-        command_visibility = bool;
     }
 
     private static void set_appValues() {
@@ -102,15 +105,15 @@ class LineDisplay_Const extends User_Fields {
         location_Y_headline = 1;
         SIZE_NAME_BOX = 15;
 
-        textBlock_TITLE_location_X[0] = 4;
+        textBlock_TITLE_location_Y[0] = 4;
 
-        textBlock_NOTIFICATION_location_X[0] = 5;
-        textBlock_NOTIFICATION_location_X[1] = 6;
+        textBlock_NOTIFICATION_location_Y[0] = 5;
+        textBlock_NOTIFICATION_location_Y[1] = 6;
 
-        textBlock_CONTENT_location_X[0] = 8;
-        textBlock_CONTENT_location_X[1] = 9;
-        textBlock_CONTENT_location_X[2] = 10;
-        textBlock_CONTENT_location_X[3] = 11;
+        textBlock_CONTENT_location_Y[0] = 8;
+        textBlock_CONTENT_location_Y[1] = 9;
+        textBlock_CONTENT_location_Y[2] = 10;
+        textBlock_CONTENT_location_Y[3] = 11;
 
         block_serverIp_position_X_Y = new int[]{1, 1};
         block_serverIp_title = "server ip: ";
@@ -120,6 +123,12 @@ class LineDisplay_Const extends User_Fields {
 
         block_userName_position_X_Y = new int[]{SIZE_DISPLAY_X - SIZE_NAME_BOX + 2, 1};
 
+        messages_position_X = 3;
+        messageLines_size = (SIZE_DISPLAY_Y - 2) - (textBlock_NOTIFICATION_location_Y[1] + 1);
+    }
+
+    public static void set_commandVisibility(boolean bool) {
+        command_visibility = bool;
     }
 
     private static void set_commandLines() {

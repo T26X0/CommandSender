@@ -1,6 +1,6 @@
-package Client_Side.User_Display.Config;
+package Client_Side.Display.Config;
 
-public enum InfoBlock {
+public enum Blocks_Exception {
     SERVER_UNAVAILABLE(new String[] {
             "Connection to the server failed",
             "* Check of the correctness of the data",
@@ -9,7 +9,7 @@ public enum InfoBlock {
 
     String[] exceptionLines;
 
-    InfoBlock(String[] exception) {
+    Blocks_Exception(String[] exception) {
         this.exceptionLines = exception;
     }
 

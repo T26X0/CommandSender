@@ -2,7 +2,8 @@ package Utils;
 
 import org.json.JSONObject;
 
-public class UserData {
+public class MessageForm {
+
     /**
      * <h2>for Server:</h2>
      * <b>The class provides getters for:</b>
@@ -13,7 +14,8 @@ public class UserData {
      *
      * <h2>for Client:</h2>
      * <h4>method for preparing a message using a template for sending</h4>
-     * @see     UserData#prepareMessage(String, String)
+     *
+     * @see MessageForm#prepareMessage_toSend(String, String)
      */
     private String message;
     private String clientIp;
@@ -22,53 +24,55 @@ public class UserData {
     private String textMessage;
 
     /**
-     *  <pre> This constructor is intended for use in the Client </pre>
+     * <pre> This constructor is intended for use in the Client </pre>
+     * <p>
+     * Creates a constructor instance for subsequent
+     * preparation of messages in json format
      *
-     *  Creates a constructor instance for subsequent
-     *  preparation of messages in json format
-     * @param clientIp String
+     * @param clientIp   String
      * @param clientName String
      */
-    public UserData(String clientIp, String clientName) {
+    public MessageForm(String clientIp, String clientName) {
         this.clientIp = clientIp;
         this.clientName = clientName;
     }
 
     /**
-     *  <pre> This constructor is intended for use in the Server </pre>
+     * <pre> This constructor is intended for use in the Server </pre>
      *
-     *  <b>For the server:</b> this class breaks down the message that came from the client
-     *  and provides convenient access to message elements
+     * <b>For the server:</b> this class breaks down the message that came from the client
+     * and provides convenient access to message elements
+     *
      * @param message String
      */
-    public UserData(String message) {
+    public MessageForm(String message) {
 
         this.message = message;
         initInputData();
     }
 
-    public String prepareMessage(String recipient, String content) {
+    public String prepareMessage_toSend(String recipient, String content) {
 
         return "{" +
                 "\"ip\":\"" + clientIp + "\", " +
                 "\"name\":\"" + clientName + "\", " +
                 "\"recipient\":\"" + recipient + "\", " +
-                 "\"content\":\"" + content + "\"}";
+                "\"content\":\"" + content + "\"}";
     }
 
-    public String getClientIp() {
+    public String get_clientIp() {
         return clientIp;
     }
 
-    public String getClientName() {
+    public String get_clientName() {
         return clientName;
     }
 
-    public String getRecipientIp() {
+    public String get_recipientIp() {
         return messageRecipient;
     }
 
-    public String getTextMessage() {
+    public String get_textMessage() {
         return textMessage;
     }
 
