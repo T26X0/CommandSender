@@ -19,14 +19,15 @@
 
 <div>
     <h3>TUI (Terminal user interface) - version 1.0 </h3>
-    <pre>Final registration and connection page                                  Logo</pre>
+    <pre>      Final registration and connection page                                  Logo</pre>
      <img height="300" src="src\main\resources\images\demo_1.jpg" width="360"/>
-     <img height="300" src="src\main\resources\images\demo_3.1.jpg" width="360"/>
+     <img height="300" src="src\main\resources\images\demo_3.jpg" width="400"/>
 </div>
 <div>
     <h3>TUI (Terminal user interface) - version 1.1 </h3>
-    <pre>Main page with commands</pre>
+    <pre>           Main page with commands                                            Chat</pre>
      <img height="300" src="src\main\resources\images\demo_2.jpg" width="360"/>
+     <img height="300" src="src\main\resources\images\demo_4.jpg" width="360"/>
 </div>
 
 
@@ -36,7 +37,7 @@
     An explanation of installation and use will definitely appear here
 </h3>
 <h6>
-    Be sure to include photos of installation and use
+    Make sure to include photos of installation and usage
 </h6>
 
 <div>
