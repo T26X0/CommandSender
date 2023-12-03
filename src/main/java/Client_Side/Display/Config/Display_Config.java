@@ -1,13 +1,14 @@
-package Client_Side.User_Display.Config;
+package Client_Side.Display.Config;
 
 
 import Client_Side.Client.Config.User_Fields;
+import Utils.MessageForm;
 
 import java.io.IOException;
 import java.util.*;
 
 
-public class LineDisplay extends LineDisplay_Const {
+public class Display_Config extends Display_Const {
 
     protected static int lineCounter = 0;
     protected final int[][] location_top_line_Frame = new int[SIZE_DISPLAY_X][2];
@@ -18,45 +19,63 @@ public class LineDisplay extends LineDisplay_Const {
     protected final int[][] location_line_nameBox = new int[location_Y_headline + 1][2];
     protected Map<String, String> working_display;
 
-    public void show_logo() {
-        System.out.println(logo_image);
-        System.out.println(logo_text);
-
+    public Display_Config() {
+        show_logo();
+        updateDisplay();
     }
 
     protected void updateDisplay() {
         init_Display();
         init_Horizontal_line();
         init_Vertical_line();
-
         init_NameBox();
 
         set_in_display();
-        add_templateHeadLine();
+        set_topHeadBlock();
+        set_allMessages();
+//        add_commands();
 
         fillEmptiness();
         setTitle();
     }
 
-    private void add_templateHeadLine() {
-        set_topHeadBlock();
+    public void show_logo() {
+        System.out.println(logo_image);
+        System.out.println(logo_text);
+
+    }
+
+    private void add_commands() {
         if (command_visibility) {
             set_commandsBLock();
         }
     }
 
+    private void set_allMessages() {
+        Map<String, String> strWithCoordinates;
+        int x = messages_position_X;
+        int y;
+
+        for (int i = 0; i < messageLines_size; i++) {
+            y = textBlock_NOTIFICATION_location_Y[1] + 1 + i;
+            strWithCoordinates = prepareToInsertInMap(x, y, allMessages.get(i));
+            addToDisplay(strWithCoordinates);
+        }
+
+    }
+
     private void set_commandsBLock() {
-        Map<String, String> mapWithCoordinates;
+        Map<String, String> strWithCoordinates;
         int x;
         int y;
 
-        List<String> keys = new ArrayList<>(allCommands.keySet());
-        for (String key : keys) {
-            int[] value = allCommands.get(key);
-            x = value[X_POINT];
-            y = value[Y_POINT];
-            mapWithCoordinates = prepareToInsertInMap(x, y, key);
-            addToDisplay(mapWithCoordinates);
+        List<String> all_commandLines = new ArrayList<>(allCommands.keySet());
+        for (String commandLine : all_commandLines) {
+            int[] coordinates = allCommands.get(commandLine);
+            x = coordinates[X_POINT];
+            y = coordinates[Y_POINT];
+            strWithCoordinates = prepareToInsertInMap(x, y, commandLine);
+            addToDisplay(strWithCoordinates);
         }
     }
 
@@ -75,7 +94,7 @@ public class LineDisplay extends LineDisplay_Const {
         x = block_serverIp_position_X_Y[X_POINT];
         y = block_serverIp_position_X_Y[Y_POINT];
         mapWithCoordinates = prepareToInsertInMap(x, y,
-                LineDisplay_Const.block_serverIp_title + User_Fields.get_serverIp());
+                Display_Const.block_serverIp_title + User_Fields.get_serverIp());
         addToDisplay(mapWithCoordinates);
 
         x = block_serverPort_position_X_Y[X_POINT];
@@ -87,7 +106,7 @@ public class LineDisplay extends LineDisplay_Const {
         }
 
         mapWithCoordinates = prepareToInsertInMap(x, y,
-                LineDisplay_Const.block_serverPort_title + serverPort);
+                Display_Const.block_serverPort_title + serverPort);
         addToDisplay(mapWithCoordinates);
     }
 
@@ -229,6 +248,23 @@ public class LineDisplay extends LineDisplay_Const {
         return resultMap;
     }
 
+    protected Map<String, String> prepareToInsertInMap(int x, int y, MessageForm messageForm) {
+        String coordinatesForKey;
+        String letterForValue;
+        Map<String, String> resultMap = new HashMap<>();
+
+        String str = messageForm.get_clientName() + ": " + messageForm.get_textMessage();
+
+        char[] numbersOfChars = str.toCharArray();
+
+        for (int i = 0; i < numbersOfChars.length; i++) {
+            coordinatesForKey = getCoordinates(x + i, y);
+            letterForValue = String.valueOf(numbersOfChars[i]);
+            resultMap.put(coordinatesForKey, letterForValue);
+        }
+        return resultMap;
+    }
+
     protected void addToDisplay(Map<String, String> map) {
         List<String> keys = new ArrayList<>(map.keySet());
         for (String key : keys) {
@@ -281,3 +317,4 @@ public class LineDisplay extends LineDisplay_Const {
         }
     }
 }
+

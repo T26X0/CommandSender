@@ -1,9 +1,9 @@
-package Client_Side.User_Display;
+package Client_Side.Display;
 
-import Client_Side.User_Display.Config.LineDisplay;
-import Client_Side.User_Display.Config.TextBlock;
+import Client_Side.Display.Config.Display_Config;
+import Client_Side.Display.Config.Blocks_Text;
 
-import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -12,31 +12,31 @@ import java.util.Map;
  * <pre>x = 30</pre>
  * <pre>y = 30</pre>
  */
-public class User_Display extends LineDisplay {
+public class User_Display extends Display_Config {
 
     public User_Display() {
         super();
     }
 
-    public void add(String str, TextBlock textBlock) {
+    public void add(String str, Blocks_Text textBlock) {
         int x = get_X_for_centering(str);
         int y = 0;
 
         Map<String, String> stringWithCoordinates;
 
-        if (textBlock == TextBlock.TITLE) {
+        if (textBlock == Blocks_Text.TITLE) {
 
-            y = TextBlock.TITLE.coordinates[lineCounter];
+            y = Blocks_Text.TITLE.coordinates[lineCounter];
         }
 
-        if (textBlock == TextBlock.NOTIFICATION) {
+        if (textBlock == Blocks_Text.NOTIFICATION) {
 
-            y = TextBlock.NOTIFICATION.coordinates[lineCounter];
+            y = Blocks_Text.NOTIFICATION.coordinates[lineCounter];
         }
 
-        if (textBlock == TextBlock.CONTENT) {
+        if (textBlock == Blocks_Text.CONTENT) {
             System.out.println(str);
-            y = TextBlock.CONTENT.coordinates[lineCounter];
+            y = Blocks_Text.CONTENT.coordinates[lineCounter];
         }
 
         stringWithCoordinates = prepareToInsertInMap(x, y, str);
@@ -52,7 +52,7 @@ public class User_Display extends LineDisplay {
      *     3. TextBlock.CONTENT
      * </pre>
      */
-    public void reset() {
+    public void update() {
         updateDisplay();
     }
 
@@ -62,7 +62,7 @@ public class User_Display extends LineDisplay {
         resetLineCounter();
     }
 
-    private static String prepareTextForException(TextBlock textBlock, String str) {
+    private static String prepareTextForException(Blocks_Text textBlock, String str) {
         return "\nMaximum positions in the: " + textBlock.toString() + " block.\n " +
                 "There was an attempt for a text: \"" + str + "\"";
     }
