@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="LineSender_Client:jar">
+  <artifact type="jar" name="CommandSender:jar">
     <output-path>$PROJECT_DIR$/src/main/build/LineSender_Client</output-path>
     <root id="archive" name="CommandSender.jar">
       <element id="module-output" name="CommandSender" />
