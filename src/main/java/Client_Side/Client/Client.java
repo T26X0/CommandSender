@@ -8,8 +8,6 @@ import Client_Side.Client.Config.User_Fields;
 import Client_Side.Display.Config.Blocks_Exception;
 import Client_Side.Display.Config.Blocks_Text;
 import Client_Side.Display.User_Display;
-import Server_Side.Config.Server_InputHandler;
-import Server_Side.Config.Server_ResponseHandler;
 import Utils.MessageForm;
 import Utils.Validator;
 
@@ -28,17 +26,15 @@ public class Client extends User_Fields {
 
     public Client() {
         display = new User_Display();
-
         if (!(has_userName() && has_serverIp() && has_serverPort())) {
             User_Fields.set_userIp(Local_ip.get());
 
-//            User_Fields.set_userName("t26x0");
-//            User_Fields.set_serverPort(8081);
-//            User_Fields.set_serverIp("127.0.0.1");
-            client_registration();
+            User_Fields.set_userName("t26x0");
+            User_Fields.set_serverPort(8081);
+            User_Fields.set_serverIp("127.0.0.1");
+//            client_registration();
         }
         messageForm = new MessageForm(get_userIp(), get_userName());
-//        connecting_toServer();
     }
 
     /**
@@ -48,11 +44,13 @@ public class Client extends User_Fields {
      * the user socket to the database active users
      */
     public void connecting_toServer() {
+        display.update();
+        display.show();
         try {
             socket = new Socket(get_serverIp(), get_serverPort());
             PrintWriter output = new PrintWriter(socket.getOutputStream());
 
-            String message = messageForm.prepareMessage_toSend("", "");
+            String message = messageForm.prepareMessage_toSend("", default_userMessage);
             output.println(message);
             output.flush();
 
@@ -85,6 +83,8 @@ public class Client extends User_Fields {
     }
 
     private void client_registration() {
+        display.show_logo();
+
         String temporary_userName;
         String temporary_serverIp;
         int temporary_serverPort;

@@ -1,11 +1,14 @@
 package Server_Side.Config;
 
+import Client_Side.Client.Config.User_Fields;
 import Server_Side.Server;
 import Utils.MessageForm;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -42,20 +45,22 @@ public class Server_ResponseHandler extends Server implements Runnable {
         String lastIp = "None";
         String lastName = "None";
 
-
         try (Scanner input = new Scanner(socket.getInputStream())) {
             while (true) {
-                System.out.println("1");
                 String fromUser = input.nextLine();
-                System.out.println("2");
                 MessageForm messageForm = new MessageForm(fromUser);
-                System.out.println("3");
+
+                System.out.println("?????");
+                System.out.println(userIsRegistered(messageForm));
+                System.out.println("?????");
+
+                if (!userIsRegistered(messageForm)) {
+                    registrationUser(socket, messageForm);
+                }
 
                 lastIp = messageForm.get_clientIp();
                 lastName = messageForm.get_clientName();
-
-                send_message(messageForm);
-                System.out.println("4");
+                send_message(fromUser);
             }
         } catch (IOException e) {
             // TODO logging
@@ -66,25 +71,42 @@ public class Server_ResponseHandler extends Server implements Runnable {
         }
     }
 
-    private void send_message(MessageForm messageForm) {
+    /**
+     * <h3>The method checks the user's registration.
+     * The user sends an empty message if he is not registered</h3>
+     *
+     * @return boolean
+     */
+    private static boolean userIsRegistered(MessageForm messageForm) {
+        return !messageForm.get_textMessage()
+                .equals(User_Fields.get_default_userMessage());
+    }
 
-        String clientIp = messageForm.get_clientIp();
-        String clientName = messageForm.get_clientName();
-        String recipientIp = messageForm.get_recipientIp();
-        String textMessage = messageForm.get_textMessage();
 
-        MessageForm answered_messageForm = new MessageForm(clientIp, clientName);
-        String message_toAnswer = answered_messageForm.prepareMessage_toSend(recipientIp, textMessage);
+    private void send_message(String message_fromUser) {
 
-        output.println(message_toAnswer);
-        output.flush();
+        List<Socket> allUser_sockets = new ArrayList<>(allUser.keySet());
 
-        // temporary solution only for demonstration!
+        System.out.println(allUser);
+        System.out.println(allUser_sockets);
+
+        for (Socket soc : allUser_sockets) {
+            try {
+                output = new PrintWriter(soc.getOutputStream());
+                output.println(message_fromUser);
+                output.flush();
+            } catch (IOException e) {
+                MessageForm userData = allUser.get(soc);
+                // TODO logging ("user"  + userData + "didn't receive the message)
+            }
+        }
+
+        MessageForm userData = new MessageForm(message_fromUser);
+//         temporary solution only for demonstration!
         System.out.println("____________");
         System.out.println("New message:");
-        System.out.println("  from: " + clientIp);
-        System.out.println("  name: " + clientName);
-        System.out.println("  to: " + recipientIp);
-        System.out.println("  text: " + textMessage);
+        System.out.println("  from: " + userData.get_clientIp());
+        System.out.println("  name: " + userData.get_clientName());
+        System.out.println("  text: " + userData.get_textMessage());
     }
 }

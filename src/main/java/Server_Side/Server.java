@@ -14,7 +14,7 @@ public class Server {
 
     ServerSocket serverSocket;
     Socket socket;
-    public static Map<String, Socket> allUser = new HashMap<>();
+    public static Map<Socket, MessageForm> allUser = new HashMap<>();
 
     public void startConnect() {
         try {
@@ -45,8 +45,8 @@ public class Server {
      */
     public static void registrationUser(Socket socket, MessageForm messageForm) {
         allUser.put(
-                messageForm.get_clientIp(),
-                socket);
+                socket,
+                messageForm);
         // TODO logging
     }
 }

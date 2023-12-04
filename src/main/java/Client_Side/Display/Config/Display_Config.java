@@ -20,7 +20,6 @@ public class Display_Config extends Display_Const {
     protected Map<String, String> working_display;
 
     public Display_Config() {
-        show_logo();
         updateDisplay();
     }
 

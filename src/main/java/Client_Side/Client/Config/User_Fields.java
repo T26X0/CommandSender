@@ -13,6 +13,7 @@ public class User_Fields {
     private static String default_userIp = "...";
     private static String default_serverIp = "...";
     private static int default_serverPort = 0;
+    protected static String default_userMessage = "...joined the server...";
 
     protected static final int MAX_NAME_LENGTH = 13;
     private static String userName = default_userName;
@@ -99,5 +100,9 @@ public class User_Fields {
 
     public static int get_serverPort() {
         return serverPort;
+    }
+
+    public static String get_default_userMessage() {
+        return default_userMessage;
     }
 }

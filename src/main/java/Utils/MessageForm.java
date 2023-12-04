@@ -84,4 +84,9 @@ public class MessageForm {
         messageRecipient = jsonMessage.getString("recipient");
         textMessage = jsonMessage.getString("content");
     }
+
+    @Override
+    public String toString() {
+        return get_clientName() + ": " + get_clientIp();
+    }
 }
